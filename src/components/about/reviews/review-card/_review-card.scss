@@ -1,0 +1,36 @@
+.review-card {
+  border: 1px solid #dfdfdf;
+  border-radius: 0.5rem;
+  width: 290px;
+  height: 400px;
+  padding: 20px;
+  color: #dfdfdf;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .review-container {
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .stars {
+      margin: 1rem 0;
+    }
+    .review-text {
+      line-height: 24px;
+    }
+    .review-info {
+      .name {
+        font-weight: bold;
+        margin-bottom: 0.3rem;
+      }
+    }
+  }
+  .photo {
+    cursor: pointer;
+  }
+}
