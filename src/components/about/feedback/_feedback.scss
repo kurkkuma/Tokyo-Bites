@@ -9,6 +9,10 @@
     font-family: "Ungai", sans-serif;
     text-align: center;
     margin: 82px 0 42px 0;
+
+    @media (max-width: 480px) {
+      margin: 48px 0 14px 0;
+    }
   }
   .text {
     text-align: center;
@@ -17,6 +21,17 @@
     font-size: 1.25rem;
     line-height: 35px;
     margin-bottom: 73px;
+
+    @media (max-width: 970px) {
+      width: 635px;
+    }
+    @media (max-width: 680px) {
+      width: auto;
+    }
+    @media (max-width: 480px) {
+      line-height: 20px;
+      margin-bottom: 53px;
+    }
   }
   .feedback-form {
     .user-info {
@@ -29,10 +44,22 @@
       .avatar {
         width: 40px;
         height: 40px;
+
+        @media (max-width: 480px) {
+          width: 25px;
+          height: 25px;
+        }
       }
       .name {
         font-weight: bold;
         margin: 0 2rem 0 0.5rem;
+
+        @media (max-width: 480px) {
+          margin-right: 65px;
+        }
+        @media (max-width: 300px) {
+          margin-right: 45px;
+        }
       }
     }
     .textarea-container {
@@ -54,6 +81,11 @@
       &:hover {
         transform: translateY(-10%);
       }
+
+      @media (max-width: 480px) {
+        width: 20px;
+        height: 20px;
+      }
     }
     & form {
       display: flex;
@@ -72,6 +104,22 @@
         font-size: 1rem;
         line-height: 25px;
         color: white;
+
+        @media (max-width: 855px) {
+          width: 560px;
+        }
+        @media (max-width: 760px) {
+          width: 400px;
+          height: 200px;
+        }
+        @media (max-width: 480px) {
+          width: 270px;
+          height: 130px;
+        }
+        @media (max-width: 300px) {
+          width: 220px;
+          height: 100px;
+        }
       }
     }
     .btn {
@@ -92,6 +140,15 @@
         background-color: #dfdfdf;
         color: #16171b;
       }
+
+      @media (max-width: 480px) {
+        width: 270px;
+        height: 35px;
+      }
+      @media (max-width: 300px) {
+        width: 220px;
+        height: 25px;
+      }
     }
   }
 }
@@ -100,6 +157,10 @@
   position: relative;
   font-size: 1.3rem;
   display: inline-block;
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 
   &::before {
     content: "★★★★★";

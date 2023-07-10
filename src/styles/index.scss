@@ -17,7 +17,25 @@ body {
   font-size: 16px;
   background-color: $black;
   font-family: "Tw Cen MT", sans-serif;
+  overflow-x: hidden;
+
+  @media (max-width: 1125px) {
+    font-size: 14px;
+  }
+  @media (max-width: 850px) {
+    font-size: 12px;
+  }
+  @media (max-width: 780px) {
+    font-size: 13px;
+  }
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+  @media (max-width: 300px) {
+    font-size: 10px;
+  }
 }
+
 * {
   padding: 0;
   margin: 0;
