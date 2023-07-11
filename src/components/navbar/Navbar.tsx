@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -12,7 +13,9 @@ function Navbar() {
           alt="favorite"
         />
         <img className="basket" src="/images/icons/basket.png" alt="basket" />
-        <img className="avatar" src="/images/icons/avatar.png" alt="avatar" />
+        <Link to="/profile">
+          <img className="avatar" src="/images/icons/avatar.png" alt="avatar" />
+        </Link>
       </div>
     </div>
   );

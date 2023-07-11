@@ -1,9 +1,12 @@
 @import url("../components/navbar/_navbar.scss");
+@import url("../components/footer/_footer.scss");
+// about
 @import url("../components/about/_about.scss");
 @import url("../components/about/reviews/_reviews.scss");
 @import url("../components/about/reviews/review-card/_review-card.scss");
 @import url("../components/about/feedback/_feedback.scss");
-@import url("../components/about/footer/_footer.scss");
+// profile
+@import url("../components/profile/_profile.scss");
 
 @font-face {
   font-family: "Ungai";
