@@ -14,7 +14,11 @@ function Navbar() {
         />
         <img className="basket" src="/images/icons/basket.png" alt="basket" />
         <Link to="/profile">
-          <img className="avatar" src="/images/icons/avatar.png" alt="avatar" />
+          <img
+            className="avatar"
+            src="/images/icons/avatar-warning.png"
+            alt="avatar"
+          />
         </Link>
       </div>
     </div>

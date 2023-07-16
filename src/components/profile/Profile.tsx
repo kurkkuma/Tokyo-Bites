@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 function Profile() {
   return (
@@ -19,11 +20,13 @@ function Profile() {
           <input type="text" placeholder="Your name" />
         </div>
         <div>
-          <input type="text" placeholder="Your phone number" />
+          <input type="text" id="phone" placeholder="Your phone number" />
         </div>
         <div>
           <input type="text" placeholder="Your shipping address" />
         </div>
+        <p className="request">Please fill in all fields</p>
+
         <button>SAVE</button>
       </div>
       <h1 className="title">Why can you trust us with your data?</h1>
