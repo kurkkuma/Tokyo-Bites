@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAddUserMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setName, setPhone, setAddress } from "../../store/userSlice";
+import loading from "/images/loading.gif";
 
 function Profile() {
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
-  const [addUser, { isLoading, isError }] = useAddUserMutation();
+  const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
+  const [errors, setErrors] = useState<string[]>([]);
+  const [text, setText] = useState<string>("");
 
   const handleUpdateUser = async () => {
-    if (user.name && user.phone && user.address) {
-      await addUser(user).unwrap();
+    setErrors([]);
+    if (user.name.trim() !== "" && user.address.trim() !== "") {
+      const phoneRegex = /^\+380\d{9}$/;
+      if (phoneRegex.test(user.phone)) {
+        await addUser(user).unwrap();
+      } else {
+        setErrors((prev) => [
+          ...prev,
+          "The phone number must match the pattern +380ХХХХХХХХХ",
+        ]);
+      }
+    } else {
+      setErrors((prev) => [
+        ...prev,
+        "Please complete all fields: name and address",
+      ]);
     }
   };
 
@@ -30,6 +47,7 @@ function Profile() {
         />
         <div>
           <input
+            className={isSuccess === true ? "success" : ""}
             onChange={(e) => userDispatch(setName(e.target.value))}
             type="text"
             placeholder="Your name"
@@ -37,22 +55,49 @@ function Profile() {
         </div>
         <div>
           <input
-            onChange={(e) => userDispatch(setPhone(e.target.value))}
+            className={isSuccess === true ? "success" : ""}
+            onChange={(e) => {
+              userDispatch(setPhone(e.target.value));
+              setText(e.target.value);
+            }}
             type="text"
-            placeholder="Your phone number"
+            placeholder="+380XXXXXXXXX"
+            maxLength={13}
+            value={user.phone}
+            style={{
+              color: text.length > 4 ? "white" : "rgb(119,119,119)",
+              fontSize: "1.20rem",
+            }}
           />
         </div>
         <div>
           <input
+            className={isSuccess === true ? "success" : ""}
             onChange={(e) => userDispatch(setAddress(e.target.value))}
             type="text"
             placeholder="Your shipping address"
           />
         </div>
-        {isLoading && <p className="warning">Loading...</p>}
+
+        {isLoading && (
+          <img src={loading} style={{ width: "2rem", height: "2rem" }} />
+        )}
+        {isSuccess && <p className="success">Success!</p>}
         {isError && <p className="error">Error! Please try again</p>}
 
-        <p className="error">Please fill in all fields</p>
+        {errors.length === 0 &&
+          (user.name === "" ||
+            user.phone === "+380" ||
+            user.address === "") && (
+            <p className="error">Please fill in all fields</p>
+          )}
+        {errors.map((error, index) => {
+          return (
+            <p key={index} className="error">
+              {error}
+            </p>
+          );
+        })}
 
         <button onClick={handleUpdateUser}>SAVE</button>
       </div>

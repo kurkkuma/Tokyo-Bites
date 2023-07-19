@@ -17,6 +17,10 @@
     font-size: 1rem;
     color: #e5c975;
   }
+  .success {
+    font-size: 1rem;
+    color: #a0db75;
+  }
   .title {
     color: white;
     font-size: 1.5rem;
@@ -36,8 +40,8 @@
     z-index: 40;
 
     .profile-photo {
-      width: 6.9rem;
-      height: 6.75rem;
+      width: 6rem;
+      height: 6rem;
       margin-top: 50px;
     }
 
@@ -49,10 +53,13 @@
       border: none;
       border-bottom: 1px solid #dfdfdf;
       background-color: transparent;
-      color: white;
+      color: rgb(255, 255, 255);
       font-family: "Tw Cen MT", sans-serif;
       font-size: 1.25rem;
       outline: none;
+      &.success {
+        animation: inputsuccess 1.5s ease-in backwards;
+      }
 
       @media (max-width: 610px) {
         width: 300px;
@@ -118,5 +125,16 @@
       width: 180px;
       height: 400px;
     }
+  }
+}
+
+@keyframes inputsuccess {
+  50% {
+    color: #a0db75;
+    border-bottom: 1px solid #a0db75;
+  }
+  100% {
+    color: white;
+    border-bottom: 1px solid #dfdfdf;
   }
 }

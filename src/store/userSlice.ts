@@ -13,7 +13,7 @@ interface UserState {
 const initialState: UserState = {
   user: {
     name: "",
-    phone: "",
+    phone: "+380",
     address: "",
   },
 };
