@@ -1,7 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useAddUserMutation } from "../../store/api/userApi";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setName, setPhone, setAddress } from "../../store/userSlice";
 
 function Profile() {
+  const user = useAppSelector((state) => state.user.user);
+  const userDispatch = useAppDispatch();
+  const [addUser, { isLoading, isError }] = useAddUserMutation();
+
+  const handleUpdateUser = async () => {
+    if (user.name && user.phone && user.address) {
+      await addUser(user).unwrap();
+    }
+  };
+
   return (
     <div className="profile">
       <img
@@ -17,17 +29,32 @@ function Profile() {
           alt="profile-photo"
         />
         <div>
-          <input type="text" placeholder="Your name" />
+          <input
+            onChange={(e) => userDispatch(setName(e.target.value))}
+            type="text"
+            placeholder="Your name"
+          />
         </div>
         <div>
-          <input type="text" id="phone" placeholder="Your phone number" />
+          <input
+            onChange={(e) => userDispatch(setPhone(e.target.value))}
+            type="text"
+            placeholder="Your phone number"
+          />
         </div>
         <div>
-          <input type="text" placeholder="Your shipping address" />
+          <input
+            onChange={(e) => userDispatch(setAddress(e.target.value))}
+            type="text"
+            placeholder="Your shipping address"
+          />
         </div>
-        <p className="request">Please fill in all fields</p>
+        {isLoading && <p className="warning">Loading...</p>}
+        {isError && <p className="error">Error! Please try again</p>}
 
-        <button>SAVE</button>
+        <p className="error">Please fill in all fields</p>
+
+        <button onClick={handleUpdateUser}>SAVE</button>
       </div>
       <h1 className="title">Why can you trust us with your data?</h1>
       <ul className="text">
