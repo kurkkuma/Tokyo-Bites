@@ -26,11 +26,27 @@ app.post("/add-user", async (req, res) => {
   const { name, phone, address } = req.body;
 
   try {
-    const user = new User({ name, phone, address });
-    await user.save();
+    const existingUser = await User.findOne({ phone });
 
-    console.log(user);
-    res.status(200).json(user);
+    if (existingUser) {
+      if (existingUser.name === name && existingUser.address === address) {
+        return res
+          .status(200)
+          .json({ message: "User data does not need to be updated" });
+      } else {
+        (existingUser.name = name),
+          (existingUser.address = address),
+          await existingUser.save();
+        console.log(existingUser);
+        res.status(200).json(existingUser);
+      }
+    } else {
+      const user = new User({ name, phone, address });
+      await user.save();
+
+      console.log(user);
+      res.status(200).json(user);
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to save user" });
