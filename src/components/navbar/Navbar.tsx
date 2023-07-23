@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
 
 function Navbar() {
+  const user = useAppSelector((state) => state.user.user);
+
   return (
     <div className="navbar">
       <img className="menu-bar" src="/images/icons/menu.png" alt="menu-bar" />
@@ -16,7 +19,13 @@ function Navbar() {
         <Link to="/profile">
           <img
             className="avatar"
-            src="/images/icons/avatar-warning.png"
+            src={
+              user.name.length > 0 &&
+              user.phone.length === 13 &&
+              user.address.length > 0
+                ? "/images/icons/avatar.png"
+                : "/images/icons/avatar-warning.png"
+            }
             alt="avatar"
           />
         </Link>

@@ -9,7 +9,6 @@ function Profile() {
   const userDispatch = useAppDispatch();
   const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
   const [errors, setErrors] = useState<string[]>([]);
-  const [text, setText] = useState<string>("");
 
   const handleUpdateUser = async () => {
     setErrors([]);
@@ -17,6 +16,9 @@ function Profile() {
       const phoneRegex = /^\+380\d{9}$/;
       if (phoneRegex.test(user.phone)) {
         await addUser(user).unwrap();
+        if (isSuccess) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
       } else {
         setErrors((prev) => [
           ...prev,
@@ -30,7 +32,11 @@ function Profile() {
       ]);
     }
   };
-
+  const handleReset = () => {
+    userDispatch(setName(""));
+    userDispatch(setPhone("+380"));
+    userDispatch(setAddress(""));
+  };
   return (
     <div className="profile">
       <img
@@ -51,6 +57,7 @@ function Profile() {
             onChange={(e) => userDispatch(setName(e.target.value))}
             type="text"
             placeholder="Your name"
+            value={user.name}
           />
         </div>
         <div>
@@ -58,14 +65,13 @@ function Profile() {
             className={isSuccess === true ? "success" : ""}
             onChange={(e) => {
               userDispatch(setPhone(e.target.value));
-              setText(e.target.value);
             }}
-            type="text"
+            type="phone"
             placeholder="+380XXXXXXXXX"
             maxLength={13}
             value={user.phone}
             style={{
-              color: text.length > 4 ? "white" : "rgb(119,119,119)",
+              color: user.phone.length > 4 ? "white" : "rgb(119,119,119)",
               fontSize: "1.20rem",
             }}
           />
@@ -76,6 +82,7 @@ function Profile() {
             onChange={(e) => userDispatch(setAddress(e.target.value))}
             type="text"
             placeholder="Your shipping address"
+            value={user.address}
           />
         </div>
 
@@ -100,6 +107,12 @@ function Profile() {
         })}
 
         <button onClick={handleUpdateUser}>SAVE</button>
+        <p
+          onClick={handleReset}
+          style={{ color: "grey", cursor: "pointer", fontSize: "1rem" }}
+        >
+          Reset all data
+        </p>
       </div>
       <h1 className="title">Why can you trust us with your data?</h1>
       <ul className="text">
