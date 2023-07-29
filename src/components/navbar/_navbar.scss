@@ -25,6 +25,7 @@
     height: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
+    z-index: 10;
 
     &:hover {
       transform: scale(105%);
@@ -35,6 +36,7 @@
       height: 25px;
     }
   }
+
   .title {
     color: #16171b;
     position: absolute;
@@ -97,5 +99,26 @@
         display: none;
       }
     }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slideBack {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
   }
 }

@@ -1,13 +1,37 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
+import BurgerMenu from "./BurgerMenu";
 
 function Navbar() {
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const user = useAppSelector((state) => state.user.user);
+
+  const handleOpenMenu = () => {
+    setIsOpenMenu((prev) => !prev);
+  };
+
+  const menuItems: string[] = [
+    "menu",
+    "basket",
+    "favorite",
+    "profile",
+    "about",
+    "contests",
+    "chat",
+  ];
 
   return (
     <div className="navbar">
-      <img className="menu-bar" src="/images/icons/menu.png" alt="menu-bar" />
+      <img
+        onClick={handleOpenMenu}
+        className="menu-bar"
+        src="/images/icons/menu.png"
+        alt="menu-bar"
+      />
+
+      <BurgerMenu menuItems={menuItems} isOpenMenu={isOpenMenu} />
+
       <h1 className="title">Tokyo Bites</h1>
       <div className="icons">
         <img

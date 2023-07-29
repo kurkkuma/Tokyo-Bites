@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<About />} />
+          <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
