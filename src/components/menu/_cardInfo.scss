@@ -1,0 +1,65 @@
+.card-info {
+  grid-column: 1 / span 3;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  & img {
+    width: 400px;
+    height: 400px;
+  }
+  .info {
+    color: white;
+
+    .name {
+      font-size: 1.7rem;
+      color: white;
+      font-family: "Ungai", sans-serif;
+      margin: 2rem 0;
+    }
+
+    .price-count {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: 1.5rem 0;
+      font-size: 1.3rem;
+      gap: 6rem;
+      .price {
+        color: white;
+        font-weight: bold;
+      }
+      .add {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        & img {
+          width: 25px;
+          height: 25px;
+          cursor: pointer;
+        }
+        .count {
+          color: white;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .title {
+      font-size: 1.25rem;
+      border-bottom: 1px solid white;
+      width: auto;
+      display: inline-block;
+    }
+    .description,
+    .composition {
+      color: #9a9a9a;
+      margin-top: 0.3rem;
+      line-height: 24px;
+    }
+    .description {
+      margin-bottom: 1rem;
+    }
+  }
+}

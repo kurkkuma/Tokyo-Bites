@@ -33,13 +33,18 @@ function Navbar() {
       <BurgerMenu menuItems={menuItems} isOpenMenu={isOpenMenu} />
 
       <h1 className="title">Tokyo Bites</h1>
+
       <div className="icons">
+        <div className="basket-container">
+          <p className="basket-info">2 pcs | 16 USD</p>
+          <img className="basket" src="/images/icons/basket.png" alt="basket" />
+        </div>
         <img
-          className="favotite"
+          className="favorite"
           src="/images/icons/favorite.png"
           alt="favorite"
         />
-        <img className="basket" src="/images/icons/basket.png" alt="basket" />
+
         <Link to="/profile">
           <img
             className="avatar"

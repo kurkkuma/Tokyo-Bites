@@ -58,7 +58,32 @@
     @media (max-width: 855px) {
       gap: 0;
     }
+    .basket-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
 
+      .basket-info {
+        color: #16171b;
+        font-size: 1rem;
+
+        @media (max-width: 550px) {
+          display: none;
+        }
+      }
+    }
+
+    .favorite {
+      @media (max-width: 855px) {
+        display: none;
+      }
+    }
+    .avatar {
+      @media (max-width: 855px) {
+        display: none;
+      }
+    }
     & img {
       width: 30px;
       height: 30px;
@@ -72,31 +97,6 @@
       @media (max-width: 480px) {
         width: 30px;
         height: 30px;
-      }
-    }
-    & img:nth-child(1) {
-      width: 30px;
-      height: 30px;
-
-      @media (max-width: 855px) {
-        display: none;
-      }
-    }
-    & img:nth-child(2) {
-      width: 35px;
-      height: 35px;
-
-      @media (max-width: 355px) {
-        width: 30px;
-        height: 30px;
-      }
-    }
-    & img:nth-child(3) {
-      width: 35px;
-      height: 55px;
-
-      @media (max-width: 855px) {
-        display: none;
       }
     }
   }

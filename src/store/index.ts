@@ -12,10 +12,12 @@ import {
 import storage from "redux-persist/lib/storage";
 import userSlice from "./userSlice";
 import { userApi } from "./api/userApi";
+import { productsApi } from "./api/productsApi";
 
 const rootReducer = combineReducers({
   user: userSlice,
   [userApi.reducerPath]: userApi.reducer,
+  [productsApi.reducerPath]: productsApi.reducer,
 });
 
 const persistConfig = {
@@ -33,7 +35,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(userApi.middleware),
+    }).concat(userApi.middleware, productsApi.middleware),
 });
 
 export const persistor = persistStore(store);

@@ -7,6 +7,9 @@
 @import url("../components/about/reviews/review-card/_review-card.scss");
 @import url("../components/about/feedback/_feedback.scss");
 @import url("../components/profile/_profile.scss");
+@import url("../components/menu/_menu.scss");
+@import url("../components/menu/_card.scss");
+@import url("../components/menu/_cardInfo.scss");
 @font-face {
   font-family: "Ungai";
   src: url("./fonts/Ungai.ttf");

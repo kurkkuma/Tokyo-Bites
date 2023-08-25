@@ -3,6 +3,7 @@ import About from "./about/About";
 import Navbar from "./navbar/Navbar";
 import Footer from "./footer/Footer";
 import Profile from "./profile/Profile";
+import Menu from "./menu/Menu";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/menu" element={<Menu />} />
         </Routes>
         <Footer />
       </BrowserRouter>
