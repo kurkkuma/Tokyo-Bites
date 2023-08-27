@@ -36,7 +36,7 @@ function Navbar() {
 
       <div className="icons">
         <div className="basket-container">
-          <p className="basket-info">2 pcs | 16 USD</p>
+          <p className="basket-info">0 pcs | 0 USD</p>
           <img className="basket" src="/images/icons/basket.png" alt="basket" />
         </div>
         <img

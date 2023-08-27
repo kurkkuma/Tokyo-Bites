@@ -21,8 +21,12 @@ interface ProductType {
 
 function Menu() {
   const { data = [], isLoading, isError } = useGetProductsQuery({});
+
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("rolls");
+  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const categories: string[] = [
     "rolls",
@@ -31,9 +35,38 @@ function Menu() {
     "gunkans",
     "sets",
   ];
+  const tags: string[] = [
+    "crab meat",
+    "prawn",
+    "salmon",
+    "eel",
+    "avocado",
+    "tuna",
+    "cheese",
+    "snow crab",
+  ];
+
   const handleChangeCategory = (category: string) => {
     setActiveCategory(category);
   };
+  const handleSelectTags = (selectedTag: string) => {
+    setActiveTags((prev) => {
+      if (prev.includes(selectedTag)) {
+        return prev.filter((tag) => tag !== selectedTag);
+      } else {
+        return [...prev, selectedTag];
+      }
+    });
+  };
+
+  const sortedData = [...data].sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.price - b.price;
+    } else {
+      return b.price - a.price;
+    }
+  });
+
   return (
     <>
       <img
@@ -42,10 +75,12 @@ function Menu() {
         alt="menu-img"
       />
       <div className="menu-container">
-        <div className="animation">
-          <div className="upper">Make your perfect sushi!</div>
-          <div className="lower">Make your perfect sushi!</div>
-          <div className="inside">TRY</div>
+        <div className="title-container">
+          <p className="title">
+            Master the art of your own taste with a unique roll maker! Create
+            your masterpieces in the world of sushi with us!
+          </p>
+          <button className="btn-try"></button>
         </div>
 
         <ul className="catalog">
@@ -61,54 +96,45 @@ function Menu() {
             );
           })}
         </ul>
+
         <div className="search-sort-container">
           <div className="search">
-            <input type="text" />
+            <input
+              onChange={(e) => setSearchQuery(e.target.value)}
+              value={searchQuery}
+              type="text"
+            />
             <img src="/images/icons/search.png" alt="search-icon" />
           </div>
-          <div className="sort">
+          <div
+            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            className="sort"
+          >
             <p>SORTED BY PRICE</p>
-            <img src="/images/icons/sort.png" alt="sort-icon" />
+            <img
+              className={sortOrder === "asc" ? "mirror" : ""}
+              src="/images/icons/sort.png"
+              alt="sort-icon"
+            />
           </div>
         </div>
+
         <div className="filter">
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item active">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item active">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item active">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item active">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
-          <div className="filter-item">
-            <p>salmon</p>
-          </div>
+          {tags.map((item: string, index: number) => {
+            return (
+              <div
+                onClick={() => handleSelectTags(item)}
+                className={`filter-item ${
+                  activeTags.includes(item) ? "active" : ""
+                }`}
+                key={index}
+              >
+                <p>{item}</p>
+              </div>
+            );
+          })}
         </div>
+
         {isLoading && (
           <img
             src={loading}
@@ -130,8 +156,23 @@ function Menu() {
                 fats={item.fats}
                 carbohydrates={item.carbohydrates}
                 tags={item.tags} /> */}
-          {data
+          {sortedData
             .filter((item: ProductType) => item.category === activeCategory)
+            .filter((item: ProductType) => {
+              if (activeTags.length === 0) {
+                return true;
+              } else {
+                return activeTags.every((tag) => item.tags.includes(tag));
+              }
+            })
+            .filter((item: ProductType) => {
+              if (searchQuery.length > 0) {
+                return item.name
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase().trim());
+              }
+              return true;
+            })
             .map((item: ProductType, index: number) => {
               return (
                 <Card

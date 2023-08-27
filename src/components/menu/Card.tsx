@@ -34,7 +34,7 @@ function Card({
         <p className="description">
           {description.length <= 55
             ? description
-            : `${description.slice(0, 55)}...`}
+            : `${description.slice(0, 55).trim()}...`}
         </p>
       </div>
 
