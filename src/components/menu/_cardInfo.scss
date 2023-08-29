@@ -1,8 +1,10 @@
 .card-info {
-  grid-column: 1 / span 3;
+  position: relative;
+  grid-column: 1/-1;
   display: flex;
   flex-direction: row;
   gap: 2rem;
+
   & img {
     width: 400px;
     height: 400px;
@@ -22,7 +24,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      margin: 1.5rem 0;
+      margin: 1.8rem 0;
       font-size: 1.3rem;
       gap: 6rem;
       .price {
@@ -52,14 +54,42 @@
       width: auto;
       display: inline-block;
     }
+    .title-composition {
+      cursor: pointer;
+      font-size: 1.25rem;
+      border-bottom: 1px solid white;
+      width: auto;
+      display: inline-block;
+    }
     .description,
     .composition {
+      font-size: 1.1rem;
       color: #9a9a9a;
       margin-top: 0.3rem;
       line-height: 24px;
     }
     .description {
       margin-bottom: 1rem;
+    }
+
+    .energy-value {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      width: 100%;
+      height: auto;
+      gap: 20px;
+      .energy-value-item {
+        display: flex;
+        align-items: center;
+        width: auto;
+        height: 1.5rem;
+        padding: 3px 1.5rem;
+        border: 1px solid #8e8e8e;
+        border-radius: 3px;
+        color: #dfdfdf;
+      }
     }
   }
 }

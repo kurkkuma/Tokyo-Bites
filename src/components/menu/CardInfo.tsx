@@ -1,33 +1,81 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-function CardInfo() {
+interface CardInfoProps {
+  url: string;
+  name: string;
+  price: number;
+  description: string;
+  composition: string;
+  kcal: number;
+  weight: number;
+  fats: number;
+  proteins: number;
+  carbohydrates: number;
+  activeCardRow: number;
+  cardId: string;
+}
+
+function CardInfo({
+  url,
+  name,
+  price,
+  description,
+  composition,
+  kcal,
+  weight,
+  fats,
+  proteins,
+  carbohydrates,
+  activeCardRow,
+  cardId,
+}: CardInfoProps) {
+  const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
+
   return (
-    <div className="card-info" style={{ gridRow: `${1}` }}>
-      <img src="/images/sushi/sushi1.jpg" alt="card-img" />
+    <div
+      className="card-info"
+      id="card-info"
+      style={{
+        gridRow: `${activeCardRow < 3 ? 2 : Math.floor(activeCardRow / 3) + 2}`,
+      }}
+    >
+      <img src={url} alt="card-img" />
       <div className="info">
-        <p className="name">Name sushi</p>
+        <p className="name">{name}</p>
         <div className="price-count">
-          <p className="price">12 USD</p>
+          <p className="price">{price} USD</p>
           <div className="add">
             <img src="/images/icons/minus.png" alt="minus-icon" />
-            <p className="count">2 pcs</p>
+            <p className="count">{0} pcs</p>
             <img src="/images/icons/plus.png" alt="plus-icon" />
           </div>
         </div>
         <p className="title">Description</p>
-        <p className="description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
-          perferendis quo iusto recusandae quos cum ipsa pariatur a fugit nemo
-          in, consectetur sequi est sit, consequuntur{" "}
+        <p className="description">{description}</p>
+        <p
+          onClick={() => setIsShowComposition(!isShowComposition)}
+          className="title-composition"
+        >
+          Show composition
         </p>
-        <p className="title">Show composition</p>
-        <p className="composition">
-          pshrimp tempura, spicy tuna and salmon tartare, truffle oil, avocado,
-          tempura and tobiko, wasabi (9 pcs.)shrimp tempura, spicy tuna and
-          salmon tartare, truffle oil, avocado, tempura and tobiko, wasabi (9
-          pcs.)shrimp tempura, spicy tuna and salmon tartare, truffle oil,
-          avocado, tempura and tobiko, wasabi (9 pcs.)
-        </p>
+        {isShowComposition && <p className="composition">{composition}</p>}
+        <div className="energy-value">
+          <div className="energy-value-item">
+            <p>Weight: {weight} g</p>
+          </div>
+          <div className="energy-value-item ">
+            <p>kcal: {kcal}</p>
+          </div>
+          <div className="energy-value-item ">
+            <p>Proteins: {proteins}</p>
+          </div>
+          <div className="energy-value-item ">
+            <p>Fats: {fats}</p>
+          </div>
+          <div className="energy-value-item ">
+            <p>Carbohydrates: {carbohydrates}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

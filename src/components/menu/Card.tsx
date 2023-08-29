@@ -1,32 +1,30 @@
 import React, { useState } from "react";
 
 interface CardProps {
-  index: number;
+  id: string;
   url: string;
   name: string;
   price: number;
   description: string;
-  setActiveCard: (arg: number | null) => void;
-  activeCard: number | null;
+  activeCard: string | null;
+  rowIndex: number;
+  handleCardClick: (arg1: string, arg2: number) => void;
 }
 
 function Card({
-  index,
+  id,
   url,
   name,
   price,
   description,
-  setActiveCard,
+  handleCardClick,
   activeCard,
+  rowIndex,
 }: CardProps) {
-  const handleChangeCard = (index: number) => {
-    setActiveCard(activeCard === index ? null : index);
-  };
-
   return (
     <div
-      className={`card ${index === activeCard ? "active" : ""}`}
-      onClick={() => handleChangeCard(index)}
+      className={`card ${id === activeCard ? "active" : ""}`}
+      onClick={() => handleCardClick(id, rowIndex)}
     >
       <div className="card-info-container">
         <img src={url} alt="card-img" />

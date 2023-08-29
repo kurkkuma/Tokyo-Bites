@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Card from "./Card";
 import CardInfo from "./CardInfo";
 import { useGetProductsQuery } from "../../store/api/productsApi";
 import loading from "/images/loading.gif";
 
 interface ProductType {
+  _id: string;
   url: string;
   name: string;
   price: number;
@@ -22,11 +23,13 @@ interface ProductType {
 function Menu() {
   const { data = [], isLoading, isError } = useGetProductsQuery({});
 
-  const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [activeCardRow, setActiveCardRow] = useState<number>(0);
   const [activeCategory, setActiveCategory] = useState<string>("rolls");
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const cardInfoRef = useRef(null);
 
   const categories: string[] = [
     "rolls",
@@ -66,6 +69,20 @@ function Menu() {
       return b.price - a.price;
     }
   });
+  const handleCardClick = (cardId: string, rowIndex: number) => {
+    setActiveCard(activeCard === cardId ? null : cardId);
+    setActiveCardRow(rowIndex);
+  };
+
+  useEffect(() => {
+    const cardInfoElement = document.getElementById("card-info");
+    if (cardInfoElement) {
+      window.scrollTo({
+        left: 0,
+        top: cardInfoElement.offsetTop - 150,
+      });
+    }
+  }, [activeCard, activeCardRow]);
 
   return (
     <>
@@ -143,19 +160,27 @@ function Menu() {
         )}
         {isError && <p className="error">Error! Please, try again</p>}
         <div className="menu">
-          {/* <CardInfo key={index}
-                url={item.url}
-                name={item.name}
-                price={item.price}
-                description={item.description}
-                composition={item.composition}
-                category={item.category}
-                kcal={item.kcal}
-                weight={item.weight}
-                proteins={item.proteins}
-                fats={item.fats}
-                carbohydrates={item.carbohydrates}
-                tags={item.tags} /> */}
+          {data
+            .filter((item: ProductType) => item._id === activeCard)
+            .map((item: ProductType, index: number) => {
+              return (
+                <CardInfo
+                  key={index}
+                  url={item.url}
+                  name={item.name}
+                  price={item.price}
+                  description={item.description}
+                  composition={item.composition}
+                  kcal={item.kcal}
+                  weight={item.weight}
+                  proteins={item.proteins}
+                  fats={item.fats}
+                  carbohydrates={item.carbohydrates}
+                  activeCardRow={activeCardRow}
+                  cardId={item._id}
+                />
+              );
+            })}
           {sortedData
             .filter((item: ProductType) => item.category === activeCategory)
             .filter((item: ProductType) => {
@@ -177,13 +202,14 @@ function Menu() {
               return (
                 <Card
                   key={index}
-                  index={index}
+                  id={item._id}
                   url={item.url}
                   name={item.name}
                   price={item.price}
                   description={item.description}
-                  setActiveCard={setActiveCard}
                   activeCard={activeCard}
+                  handleCardClick={handleCardClick}
+                  rowIndex={index}
                 />
               );
             })}
