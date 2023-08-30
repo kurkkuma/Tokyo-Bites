@@ -10,6 +10,39 @@
   justify-content: space-between;
   transition: all 0.5s ease-in-out;
 
+  @media (max-width: 895px) {
+    width: 250px;
+    height: 330px;
+  }
+  @media (max-width: 835px) {
+    width: 220px;
+    height: 310px;
+  }
+  @media (max-width: 570px) {
+    height: 300px;
+  }
+  @media (max-width: 510px) {
+    width: 200px;
+    height: 270px;
+  }
+  @media (max-width: 460px) {
+    padding: 5px 10px 15px 10px;
+    height: 210px;
+    width: 170px;
+  }
+  @media (max-width: 390px) {
+    width: 150px;
+    height: 210px;
+  }
+  @media (max-width: 320px) {
+    width: 135px;
+  }
+
+  @media (max-width: 206px) {
+    width: auto;
+    height: auto;
+  }
+
   &:hover {
     border: 1px solid #dfdfdf;
   }
@@ -20,6 +53,26 @@
     width: 180px;
     height: 180px;
     cursor: pointer;
+
+    @media (max-width: 570px) {
+      width: 130px;
+      height: 130px;
+    }
+    @media (max-width: 460px) {
+      width: 100px;
+      height: 100px;
+    }
+    @media (max-width: 390px) {
+      width: 90px;
+      height: 90px;
+    }
+    @media (max-width: 352px) {
+      width: 80px;
+    }
+    @media (max-width: 300px) {
+      width: 100px;
+      height: 100px;
+    }
   }
   .card-info-container {
     display: flex;
@@ -30,6 +83,10 @@
       color: white;
       font-family: "Ungai", sans-serif;
       margin: 1rem 0;
+
+      @media (max-width: 337px) {
+        font-size: 0.9rem;
+      }
     }
     .description {
       font-size: 1rem;
@@ -44,6 +101,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-top: 10px;
 
     .price {
       color: white;
@@ -54,6 +112,10 @@
       flex-direction: row;
       align-items: center;
       gap: 10px;
+
+      @media (max-width: 460px) {
+        display: none;
+      }
       & img {
         width: 25px;
         height: 25px;

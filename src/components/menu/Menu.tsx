@@ -29,7 +29,6 @@ function Menu() {
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const cardInfoRef = useRef(null);
 
   const categories: string[] = [
     "rolls",
@@ -51,6 +50,7 @@ function Menu() {
 
   const handleChangeCategory = (category: string) => {
     setActiveCategory(category);
+    setActiveCard(null);
   };
   const handleSelectTags = (selectedTag: string) => {
     setActiveTags((prev) => {
@@ -61,14 +61,6 @@ function Menu() {
       }
     });
   };
-
-  const sortedData = [...data].sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.price - b.price;
-    } else {
-      return b.price - a.price;
-    }
-  });
   const handleCardClick = (cardId: string, rowIndex: number) => {
     setActiveCard(activeCard === cardId ? null : cardId);
     setActiveCardRow(rowIndex);
@@ -82,8 +74,15 @@ function Menu() {
         top: cardInfoElement.offsetTop - 150,
       });
     }
-  }, [activeCard, activeCardRow]);
+  }, [activeCard]);
 
+  const sortedData = [...data].sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.price - b.price;
+    } else {
+      return b.price - a.price;
+    }
+  });
   return (
     <>
       <img

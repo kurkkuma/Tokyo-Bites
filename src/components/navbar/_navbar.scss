@@ -35,6 +35,10 @@
       width: 25px;
       height: 25px;
     }
+    @media (max-width: 400px) {
+      width: 22px;
+      height: 22px;
+    }
   }
 
   .title {
@@ -70,6 +74,12 @@
 
         @media (max-width: 550px) {
           display: none;
+        }
+      }
+      .basket {
+        @media (max-width: 400px) {
+          width: 25px;
+          height: 25px;
         }
       }
     }
