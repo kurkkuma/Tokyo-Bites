@@ -1,6 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAppSelector } from "../../../store/hooks";
+import { useAddReviewMutation } from "../../../store/api/reviewsApi";
+
+import loading from "/images/loading.gif";
 
 function Feedback() {
+  const user = useAppSelector((state) => state.user.user);
+
+  const [addReview, { isLoading, isError, isSuccess }] = useAddReviewMutation();
+
+  const [reviewText, setReviewText] = useState<string>("");
+  const [selectedStars, setSelectedStars] = useState<number | null>(null);
+
+  const handleSendReview = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (reviewText) {
+      const day = String(new Date().getDate()).padStart(2, "0");
+      const month = String(new Date().getMonth() + 1).padStart(2, "0");
+      const year = new Date().getFullYear();
+
+      await addReview({
+        userName: user.name,
+        date: `${day}.${month}.${year}`,
+        stars: selectedStars,
+        text: reviewText,
+      }).unwrap();
+      setReviewText("");
+    }
+  };
+
   return (
     <div className="feedback">
       <h1 className="title">Leave your feedback</h1>
@@ -16,7 +44,7 @@ function Feedback() {
             src="/images/icons/avatar-light.png"
             alt="avatar"
           />
-          <p className="name">Name Surname</p>
+          <p className="name">{user.name}</p>
           <div className="rating">
             <div className="stars">
               <input
@@ -25,6 +53,7 @@ function Feedback() {
                 name="rating"
                 id="star-5"
                 value="5"
+                onChange={(e) => setSelectedStars(+e.target.value)}
               />
               <label className="star-label" htmlFor="star-5"></label>
               <input
@@ -32,7 +61,8 @@ function Feedback() {
                 type="radio"
                 name="rating"
                 id="star-4"
-                value="5"
+                value="4"
+                onChange={(e) => setSelectedStars(+e.target.value)}
               />
               <label className="star-label" htmlFor="star-4"></label>
               <input
@@ -40,7 +70,8 @@ function Feedback() {
                 type="radio"
                 name="rating"
                 id="star-3"
-                value="5"
+                value="3"
+                onChange={(e) => setSelectedStars(+e.target.value)}
               />
               <label className="star-label" htmlFor="star-3"></label>
               <input
@@ -48,7 +79,8 @@ function Feedback() {
                 type="radio"
                 name="rating"
                 id="star-2"
-                value="5"
+                value="2"
+                onChange={(e) => setSelectedStars(+e.target.value)}
               />
               <label className="star-label" htmlFor="star-2"></label>
               <input
@@ -56,7 +88,8 @@ function Feedback() {
                 type="radio"
                 name="rating"
                 id="star-1"
-                value="5"
+                value="1"
+                onChange={(e) => setSelectedStars(+e.target.value)}
               />
               <label className="star-label" htmlFor="star-1"></label>
             </div>
@@ -66,8 +99,8 @@ function Feedback() {
           <div className="textarea-container">
             <textarea
               maxLength={349}
-              name=""
-              id=""
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
               placeholder="Write your review"
             ></textarea>
             <img
@@ -76,7 +109,17 @@ function Feedback() {
               alt="add-photo"
             />
           </div>
-          <button className="btn">SEND</button>
+
+          <button onClick={handleSendReview} className="btn">
+            SEND
+          </button>
+          <br />
+          {isSuccess && <p className="success">Success!</p>}
+          {isLoading && (
+            <img src={loading} style={{ width: "2rem", height: "2rem" }} />
+          )}
+
+          {isError && <p className="error">Error</p>}
         </form>
       </div>
     </div>

@@ -1,22 +1,25 @@
 import React from "react";
 
-function ReviewCard() {
+interface ReviewCardProps {
+  userName: string;
+  date: string;
+  stars: number;
+  text: string;
+}
+
+function ReviewCard({ userName, date, stars, text }: ReviewCardProps) {
   return (
     <div className="review-card">
       <div className="review-container">
         <div className="header">
           <img src="/images/icons/avatar-light.png" alt="avatar" />
           <div className="review-info">
-            <p className="name">Name Surname</p>
-            <p className="date">05.07.2023</p>
+            <p className="name">{userName}</p>
+            <p className="date">{date}</p>
           </div>
         </div>
-        <p className="stars">★★★★★</p>
-        <p className="review-text">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ipsa
-          laudantium vero temporibus id eligendi esse obcaecati, porro cum!
-          Eligendi voluptatem perferendis modi officiis.
-        </p>
+        <p className="stars">{"★".repeat(stars)}</p>
+        <p className="review-text">{text}</p>
       </div>
       <p className="photo">No photos</p>
     </div>

@@ -3,6 +3,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .error {
+    font-size: 1rem;
+    color: #ff6174;
+  }
+  .warning {
+    font-size: 1rem;
+    color: #e5c975;
+  }
+  .success {
+    font-size: 1rem;
+    color: #a0db75;
+  }
+
   .title {
     color: white;
     font-size: 1.5rem;
@@ -51,6 +65,7 @@
         }
       }
       .name {
+        font-size: 1.1rem;
         font-weight: bold;
         margin: 0 2rem 0 0.5rem;
 
@@ -93,7 +108,7 @@
       align-items: center;
       & textarea {
         width: 650px;
-        height: 240px;
+        height: 200px;
         padding: 1rem;
         box-sizing: border-box;
         border: 1px solid white;
@@ -101,7 +116,7 @@
         background: transparent;
         resize: none;
         font-family: "Tw Cen MT", sans-serif;
-        font-size: 1rem;
+        font-size: 1.1rem;
         line-height: 25px;
         color: white;
 
@@ -155,7 +170,7 @@
 
 .rating {
   position: relative;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   display: inline-block;
 
   @media (max-width: 480px) {
@@ -195,12 +210,12 @@
   flex: 0 0 20%;
   cursor: pointer;
   height: 100%;
-  color: rgb(116, 116, 116);
+  color: rgb(81, 81, 81);
 
   &:hover,
   &:hover ~ &,
   &:checked ~ &:hover {
-    color: #dfdfdf;
+    color: #acacac;
   }
   &::before {
     content: "★";

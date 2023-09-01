@@ -27,7 +27,6 @@ function CardInfo({
   proteins,
   carbohydrates,
   activeCardRow,
-  cardId,
 }: CardInfoProps) {
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
 
@@ -41,7 +40,14 @@ function CardInfo({
     >
       <img src={url} alt="card-img" />
       <div className="info">
-        <p className="name">{name}</p>
+        <p className="name">
+          {name}{" "}
+          <img
+            className="favorite-transparent"
+            src="images/icons/favorite-transparent.png"
+            alt=""
+          />
+        </p>
         <div className="price-count">
           <p className="price">{price} USD</p>
           <div className="add">

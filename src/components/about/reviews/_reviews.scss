@@ -10,6 +10,19 @@
       margin: 65px 0 25px 0;
     }
   }
+  .error {
+    font-size: 1rem;
+    color: #ff6174;
+  }
+  .warning {
+    font-size: 1rem;
+    color: #e5c975;
+  }
+  .success {
+    font-size: 1rem;
+    color: #a0db75;
+  }
+
   .container {
     display: flex;
     flex-direction: row;
@@ -48,6 +61,7 @@
     }
 
     .reviews-container {
+      position: relative;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
