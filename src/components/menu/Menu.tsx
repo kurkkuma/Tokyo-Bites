@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import CardInfo from "./CardInfo";
 import { useGetProductsQuery } from "../../store/api/productsApi";

@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ReviewCardProps {
   userName: string;
   date: string;
