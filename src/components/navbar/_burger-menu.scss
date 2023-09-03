@@ -5,6 +5,7 @@
   width: 130px;
   display: flex;
   flex-direction: column;
+  z-index: 20;
 
   @media (max-width: 480px) {
     top: 35px;

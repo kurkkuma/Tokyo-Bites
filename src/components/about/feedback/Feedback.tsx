@@ -12,9 +12,11 @@ function Feedback() {
   const [reviewText, setReviewText] = useState<string>("");
   const [selectedStars, setSelectedStars] = useState<number | null>(null);
 
+  const [error, setError] = useState<string>("");
+
   const handleSendReview = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    if (reviewText) {
+    if (selectedStars) {
       const day = String(new Date().getDate()).padStart(2, "0");
       const month = String(new Date().getMonth() + 1).padStart(2, "0");
       const year = new Date().getFullYear();
@@ -26,6 +28,9 @@ function Feedback() {
         text: reviewText,
       }).unwrap();
       setReviewText("");
+      setError("");
+    } else {
+      setError("You must rate a star to submit a review.");
     }
   };
 
@@ -120,6 +125,9 @@ function Feedback() {
           )}
 
           {isError && <p className="error">Error</p>}
+          {error && (
+            <p className="warning">You must rate a star to submit a review.</p>
+          )}
         </form>
       </div>
     </div>
