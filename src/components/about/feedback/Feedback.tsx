@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAppSelector } from "../../../store/hooks";
 import { useAddReviewMutation } from "../../../store/api/reviewsApi";
 

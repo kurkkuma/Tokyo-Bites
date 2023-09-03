@@ -11,12 +11,14 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userSlice from "./userSlice";
+import favotiteSlice from "./favorites";
 import { userApi } from "./api/userApi";
 import { productsApi } from "./api/productsApi";
 import { reviewsApi } from "./api/reviewsApi";
 
 const rootReducer = combineReducers({
   user: userSlice,
+  favorites: favotiteSlice,
   [userApi.reducerPath]: userApi.reducer,
   [productsApi.reducerPath]: productsApi.reducer,
   [reviewsApi.reducerPath]: reviewsApi.reducer,

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setFavorites } from "../../store/favorites";
 
 interface CardInfoProps {
   url: string;
@@ -12,7 +14,8 @@ interface CardInfoProps {
   proteins: number;
   carbohydrates: number;
   activeCardRow: number;
-  cardId: string;
+  activeCard: string | null;
+  tags: string[];
 }
 
 function CardInfo({
@@ -27,8 +30,14 @@ function CardInfo({
   proteins,
   carbohydrates,
   activeCardRow,
+  activeCard,
+  tags,
 }: CardInfoProps) {
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
+  const favorites = useAppSelector((state) => state.favorites.favorites);
+  const favoritesDispatch = useAppDispatch();
+
+  console.log(favorites);
 
   return (
     <div
@@ -45,7 +54,17 @@ function CardInfo({
           <img
             className="favorite-transparent"
             src="images/icons/favorite-transparent.png"
-            alt=""
+            alt="favorite-icon"
+            onClick={() => {
+              const productToFavorite = {
+                _id: activeCard,
+                url: url,
+                name: name,
+                tags: tags,
+                price: price,
+              };
+              favoritesDispatch(setFavorites(productToFavorite));
+            }}
           />
         </p>
         <div className="price-count">

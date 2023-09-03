@@ -176,7 +176,8 @@ function Menu() {
                   fats={item.fats}
                   carbohydrates={item.carbohydrates}
                   activeCardRow={activeCardRow}
-                  cardId={item._id}
+                  activeCard={activeCard}
+                  tags={item.tags}
                 />
               );
             })}

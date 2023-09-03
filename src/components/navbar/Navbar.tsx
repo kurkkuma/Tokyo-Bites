@@ -39,11 +39,14 @@ function Navbar() {
           <p className="basket-info">0 pcs | 0 USD</p>
           <img className="basket" src="/images/icons/basket.png" alt="basket" />
         </div>
-        <img
-          className="favorite"
-          src="/images/icons/favorite.png"
-          alt="favorite"
-        />
+
+        <Link to="/favorite">
+          <img
+            className="favorite"
+            src="/images/icons/favorite.png"
+            alt="favorite"
+          />
+        </Link>
 
         <Link to="/profile">
           <img

@@ -10,6 +10,7 @@
 @import url("../components/menu/_menu.scss");
 @import url("../components/menu/_card.scss");
 @import url("../components/menu/_cardInfo.scss");
+@import url("../components/favorite/_favorite.scss");
 @font-face {
   font-family: "Ungai";
   src: url("./fonts/Ungai.ttf");

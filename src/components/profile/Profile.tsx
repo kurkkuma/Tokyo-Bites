@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAddUserMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setName, setPhone, setAddress } from "../../store/userSlice";
@@ -15,7 +15,11 @@ function Profile() {
 
   const handleUpdateUser = async () => {
     setErrors([]);
-    if (user.name.trim() !== "" && user.address.trim() !== "") {
+    if (
+      user.name.trim() !== "" &&
+      user.address.trim() !== "" &&
+      user.phone.trim().length >= 10
+    ) {
       const phoneRegex = /^\+380\d{9}$/;
       if (phoneRegex.test(user.phone)) {
         await addUser(user).unwrap();
