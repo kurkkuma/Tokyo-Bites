@@ -25,7 +25,7 @@ mongoose
 // =========================================================================
 
 app.post("/add-user", async (req, res) => {
-  const { name, phone, address } = req.body;
+  const { name, phone, address, favorites } = req.body;
 
   try {
     const existingUser = await User.findOne({ phone });
@@ -38,6 +38,7 @@ app.post("/add-user", async (req, res) => {
       } else {
         (existingUser.name = name),
           (existingUser.address = address),
+          (existingUser.favorites = favorites),
           await existingUser.save();
         console.log(existingUser);
         res.status(200).json(existingUser);
@@ -52,6 +53,23 @@ app.post("/add-user", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to save user" });
+  }
+});
+
+app.post("/add-favorites", async (req, res) => {
+  const { favorites, userPhone } = req.body;
+
+  try {
+    const user = await User.findOne({ phone: userPhone });
+    user.favorites = favorites;
+    if (!user) {
+      return res.status(404);
+    }
+    await user.save();
+    return res.status(200);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
   }
 });
 
