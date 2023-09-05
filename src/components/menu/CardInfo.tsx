@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setFavorites } from "../../store/favorites";
+import { useAddFavoritesMutation } from "../../store/api/userApi";
+import { setFavorites, deleteFavorite } from "../../store/userSlice";
 
+import { FavoriteType } from "../favorite/Favorite";
 interface CardInfoProps {
   url: string;
   name: string;
@@ -14,7 +16,7 @@ interface CardInfoProps {
   proteins: number;
   carbohydrates: number;
   activeCardRow: number;
-  activeCard: string | null;
+  activeCard: string;
   tags: string[];
 }
 
@@ -34,10 +36,39 @@ function CardInfo({
   tags,
 }: CardInfoProps) {
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
-  const favorites = useAppSelector((state) => state.favorites.favorites);
+  const favorites = useAppSelector((state) => state.user.user.favorites);
+  const user = useAppSelector((state) => state.user.user);
+  const [addFavorites] = useAddFavoritesMutation();
   const favoritesDispatch = useAppDispatch();
 
-  console.log(favorites);
+  const getFavoriteIconPath = () => {
+    const isFavorite = favorites.some(
+      (item: FavoriteType) => item._id === activeCard
+    );
+    return isFavorite
+      ? "images/icons/favorite-full.png"
+      : "images/icons/favorite-transparent.png";
+  };
+
+  const handleToggleFavorite = () => {
+    if (favorites.some((item: FavoriteType) => item._id === activeCard)) {
+      favoritesDispatch(deleteFavorite(activeCard));
+    } else {
+      const productToFavorite = {
+        _id: activeCard,
+        url: url,
+        name: name,
+        tags: tags,
+        price: price,
+      };
+      favoritesDispatch(setFavorites(productToFavorite));
+    }
+  };
+
+  useEffect(() => {
+    console.log(user);
+    addFavorites({ favorites, userPhone: user.phone }).unwrap();
+  }, [favorites]);
 
   return (
     <div
@@ -53,18 +84,9 @@ function CardInfo({
           {name}{" "}
           <img
             className="favorite-transparent"
-            src="images/icons/favorite-transparent.png"
+            src={getFavoriteIconPath()}
             alt="favorite-icon"
-            onClick={() => {
-              const productToFavorite = {
-                _id: activeCard,
-                url: url,
-                name: name,
-                tags: tags,
-                price: price,
-              };
-              favoritesDispatch(setFavorites(productToFavorite));
-            }}
+            onClick={handleToggleFavorite}
           />
         </p>
         <div className="price-count">
@@ -105,5 +127,4 @@ function CardInfo({
     </div>
   );
 }
-
 export default CardInfo;

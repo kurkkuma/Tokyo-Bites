@@ -7,10 +7,7 @@ import loading from "/images/loading.gif";
 function Profile() {
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
-  const [
-    addUser,
-    { isLoading: isLoading, isError: isError, isSuccess: isSuccess },
-  ] = useAddUserMutation();
+  const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
   const [errors, setErrors] = useState<string[]>([]);
 
   const handleUpdateUser = async () => {

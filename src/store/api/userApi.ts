@@ -11,7 +11,14 @@ export const userApi = createApi({
         body,
       }),
     }),
+    addFavorites: builder.mutation({
+      query: (body) => ({
+        url: "add-favorites",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useAddUserMutation } = userApi;
+export const { useAddUserMutation, useAddFavoritesMutation } = userApi;

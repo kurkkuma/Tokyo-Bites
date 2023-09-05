@@ -1,20 +1,41 @@
-import React from "react";
-import { useAppSelector } from "../../store/hooks";
+import { useState } from "react";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { deleteFavorite } from "../../store/userSlice";
+
+export interface FavoriteType {
+  _id: string;
+  url: string;
+  name: string;
+  tags: string[];
+  price: number;
+}
 
 function Favorite() {
-  const favorites = useAppSelector((state) => state.favorites.favorites);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const favorites: FavoriteType[] = useAppSelector(
+    (state) => state.user.user.favorites
+  );
+  const favoritesDispatch = useAppDispatch();
+
   return (
     <div className="favorite-container">
       <h1 className="favorite-title">Your favorites</h1>
       <ul className="favorite-list">
-        {favorites.map((item, index) => {
+        {favorites.map((item: FavoriteType, index: number) => {
           return (
             <li key={index} className="favorite-item-container">
               <div className="favorite-info">
                 <img
+                  onClick={() => {
+                    favoritesDispatch(deleteFavorite(item._id));
+                  }}
                   className="favorite-icon"
-                  src="/images/icons/favorite-full.png"
+                  src={`/images/icons/${
+                    isHovered ? "favorite-transparent" : "favorite-full"
+                  }.png`}
                   alt="favorite-img"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
                 />
                 <img
                   className="favorite-img"
@@ -37,30 +58,6 @@ function Favorite() {
             </li>
           );
         })}
-        {/* <li className="favorite-item-container">
-          <div className="favorite-info">
-            <img
-              className="favorite-icon"
-              src="/images/icons/favorite-full.png"
-              alt="favorite-img"
-            />
-            <img
-              className="favorite-img"
-              src="/images/products/d634ea33403908fe79e679d2e9d1efff.jpg"
-              alt="product-img"
-            />
-            <p className="favorite-name">SUSHI NAME</p>
-            <p className="favorite-tags">tags for this sushi</p>
-          </div>
-          <div className="favorite-price-count">
-            <p className="price">Price USD</p>
-            <div className="add">
-              <img src="/images/icons/minus.png" alt="minus-icon" />
-              <p className="count">{0} pcs</p>
-              <img src="/images/icons/plus.png" alt="plus-icon" />
-            </div>
-          </div>
-        </li> */}
       </ul>
     </div>
   );

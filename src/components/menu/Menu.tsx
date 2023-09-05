@@ -23,7 +23,7 @@ interface ProductType {
 function Menu() {
   const { data = [], isLoading, isError } = useGetProductsQuery({});
 
-  const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [activeCard, setActiveCard] = useState<string>("");
   const [activeCardRow, setActiveCardRow] = useState<number>(0);
   const [activeCategory, setActiveCategory] = useState<string>("rolls");
   const [activeTags, setActiveTags] = useState<string[]>([]);
@@ -50,7 +50,7 @@ function Menu() {
 
   const handleChangeCategory = (category: string) => {
     setActiveCategory(category);
-    setActiveCard(null);
+    setActiveCard("");
   };
   const handleSelectTags = (selectedTag: string) => {
     setActiveTags((prev) => {
@@ -62,7 +62,7 @@ function Menu() {
     });
   };
   const handleCardClick = (cardId: string, rowIndex: number) => {
-    setActiveCard(activeCard === cardId ? null : cardId);
+    setActiveCard(activeCard === cardId ? "" : cardId);
     setActiveCardRow(rowIndex);
   };
 
