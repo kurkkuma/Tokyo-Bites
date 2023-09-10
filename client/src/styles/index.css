@@ -1,0 +1,79 @@
+@charset "UTF-8";
+@import url("../components/navbar/_navbar.scss");
+@import url("../components/navbar/_burger-menu.scss");
+@import url("../components/footer/_footer.scss");
+@import url("../components/about/_about.scss");
+@import url("../components/about/reviews/_reviews.scss");
+@import url("../components/about/reviews/review-card/_review-card.scss");
+@import url("../components/about/feedback/_feedback.scss");
+@import url("../components/profile/_profile.scss");
+@import url("../components/menu/_menu.scss");
+@import url("../components/menu/_card.scss");
+@import url("../components/menu/_cardInfo.scss");
+@import url("../components/favorite/_favorite.scss");
+@font-face {
+  font-family: "Ungai";
+  src: url("./fonts/Ungai.ttf");
+}
+html,
+body {
+  font-size: 16px;
+  background-color: #16171b;
+  font-family: "Tw Cen MT", sans-serif;
+  overflow-x: hidden;
+}
+@media (max-width: 1125px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}
+@media (max-width: 850px) {
+  html,
+  body {
+    font-size: 12px;
+  }
+}
+@media (max-width: 780px) {
+  html,
+  body {
+    font-size: 13px;
+  }
+}
+@media (max-width: 480px) {
+  html,
+  body {
+    font-size: 12px;
+  }
+}
+@media (max-width: 300px) {
+  html,
+  body {
+    font-size: 10px;
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/* Ширина скроллбара */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Цвет фона скроллбара */
+::-webkit-scrollbar-track {
+  background-color: #2d2e32;
+}
+
+/* Цвет полосы прокрутки */
+::-webkit-scrollbar-thumb {
+  background-color: #646464;
+}
+
+/* Цвет при наведении на полосу прокрутки */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #dfdfdf;
+}/*# sourceMappingURL=index.css.map */
