@@ -34,7 +34,7 @@ export const userSlice = createSlice({
     setAddress: (state, action: PayloadAction<string>) => {
       state.user.address = action.payload;
     },
-    setFavorites: (state, action: PayloadAction<FavoriteType>) => {
+    setFavorite: (state, action: PayloadAction<FavoriteType>) => {
       state.user.favorites.push(action.payload);
     },
     deleteFavorite: (state, action: PayloadAction<string>) => {
@@ -47,6 +47,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setName, setPhone, setAddress, setFavorites, deleteFavorite } =
+export const { setName, setPhone, setAddress, setFavorite, deleteFavorite } =
   userSlice.actions;
 export default userSlice.reducer;

@@ -11,14 +11,32 @@ export const userApi = createApi({
         body,
       }),
     }),
-    addFavorites: builder.mutation({
+    // updateFavorites: builder.mutation({
+    //   query: (body) => ({
+    //     url: "update-favorites",
+    //     method: "POST",
+    //     body,
+    //   }),
+    // }),
+    addFavorite: builder.mutation({
       query: (body) => ({
-        url: "add-favorites",
+        url: "add-favorite",
         method: "POST",
+        body,
+      }),
+    }),
+    deleteFavorites: builder.mutation({
+      query: (body) => ({
+        url: "delete-favorite",
+        method: "DELETE",
         body,
       }),
     }),
   }),
 });
 
-export const { useAddUserMutation, useAddFavoritesMutation } = userApi;
+export const {
+  useAddUserMutation,
+  useAddFavoriteMutation,
+  useDeleteFavoritesMutation,
+} = userApi;

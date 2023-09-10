@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { useDeleteFavoritesMutation } from "../../store/api/userApi";
 import { deleteFavorite } from "../../store/userSlice";
-
+import { handleDeleteFavorite } from "../menu/CardInfo";
 export interface FavoriteType {
   _id: string;
   url: string;
@@ -11,31 +12,41 @@ export interface FavoriteType {
 }
 
 function Favorite() {
-  const [isHovered, setIsHovered] = useState<boolean>(false);
-  const favorites: FavoriteType[] = useAppSelector(
-    (state) => state.user.user.favorites
-  );
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const user = useAppSelector((state) => state.user.user);
+  const [deleteFavoriteApi] = useDeleteFavoritesMutation();
+
   const favoritesDispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   handleDeleteFavorite(user.favorites, user.phone, updateFavorites);
+  // }, [user.favorites]);
 
   return (
     <div className="favorite-container">
       <h1 className="favorite-title">Your favorites</h1>
       <ul className="favorite-list">
-        {favorites.map((item: FavoriteType, index: number) => {
+        {user.favorites.map((item: FavoriteType, index: number) => {
+          const isHovered = hoveredItem === item._id;
           return (
             <li key={index} className="favorite-item-container">
               <div className="favorite-info">
                 <img
-                  onClick={() => {
+                  onClick={async () => {
                     favoritesDispatch(deleteFavorite(item._id));
+                    await handleDeleteFavorite(
+                      item._id,
+                      user.phone,
+                      deleteFavoriteApi
+                    );
                   }}
                   className="favorite-icon"
                   src={`/images/icons/${
                     isHovered ? "favorite-transparent" : "favorite-full"
                   }.png`}
                   alt="favorite-img"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
+                  onMouseEnter={() => setHoveredItem(item._id)}
+                  onMouseLeave={() => setHoveredItem(null)}
                 />
                 <img
                   className="favorite-img"

@@ -1,9 +1,42 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useAddFavoritesMutation } from "../../store/api/userApi";
-import { setFavorites, deleteFavorite } from "../../store/userSlice";
-
+import {
+  useAddFavoriteMutation,
+  useDeleteFavoritesMutation,
+} from "../../store/api/userApi";
+import { setFavorite, deleteFavorite } from "../../store/userSlice";
 import { FavoriteType } from "../favorite/Favorite";
+
+const handleAddFavorite = async (
+  product: FavoriteType,
+  phone: string,
+  addFavorite
+) => {
+  try {
+    await addFavorite({
+      product: product,
+      phone: phone,
+    }).unwrap();
+    return true;
+  } catch (error) {
+    console.error("Failed to add favorite:", error);
+    return false;
+  }
+};
+export const handleDeleteFavorite = async (
+  id: string,
+  phone: string,
+  deleteFavorite
+) => {
+  try {
+    await deleteFavorite({ productId: id, phone: phone }).unwrap();
+    return true;
+  } catch (error) {
+    console.error("Failed to delete favorite:", error);
+    return false;
+  }
+};
+
 interface CardInfoProps {
   url: string;
   name: string;
@@ -38,7 +71,8 @@ function CardInfo({
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
   const favorites = useAppSelector((state) => state.user.user.favorites);
   const user = useAppSelector((state) => state.user.user);
-  const [addFavorites] = useAddFavoritesMutation();
+  const [addFavoriteApi, { isSuccess }] = useAddFavoriteMutation();
+  const [deleteFavoriteApi] = useDeleteFavoritesMutation();
   const favoritesDispatch = useAppDispatch();
 
   const getFavoriteIconPath = () => {
@@ -50,9 +84,10 @@ function CardInfo({
       : "images/icons/favorite-transparent.png";
   };
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = async () => {
     if (favorites.some((item: FavoriteType) => item._id === activeCard)) {
       favoritesDispatch(deleteFavorite(activeCard));
+      await handleDeleteFavorite(activeCard, user.phone, deleteFavoriteApi);
     } else {
       const productToFavorite = {
         _id: activeCard,
@@ -61,13 +96,14 @@ function CardInfo({
         tags: tags,
         price: price,
       };
-      favoritesDispatch(setFavorites(productToFavorite));
+
+      favoritesDispatch(setFavorite(productToFavorite));
+      await handleAddFavorite(productToFavorite, user.phone, addFavoriteApi);
     }
   };
 
   useEffect(() => {
-    console.log(user);
-    addFavorites({ favorites, userPhone: user.phone }).unwrap();
+    console.log(favorites);
   }, [favorites]);
 
   return (
@@ -91,6 +127,7 @@ function CardInfo({
         </p>
         <div className="price-count">
           <p className="price">{price} USD</p>
+
           <div className="add">
             <img src="/images/icons/minus.png" alt="minus-icon" />
             <p className="count">{0} pcs</p>
