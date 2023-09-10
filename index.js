@@ -56,20 +56,26 @@ app.post("/add-user", async (req, res) => {
   }
 });
 
-app.post("/add-favorites", async (req, res) => {
-  const { favorites, userPhone } = req.body;
+app.post("/add-favorite", async (req, res) => {
+  const { product, phone } = req.body;
 
   try {
-    const user = await User.findOne({ phone: userPhone });
-    user.favorites = favorites;
-    if (!user) {
-      return res.status(404);
-    }
-    await user.save();
-    return res.status(200);
+    console.log("=======================ADD=====================");
+    console.log(product);
+    res.status(200);
   } catch (error) {
     console.log(error);
-    res.status(500);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.delete("/delete-favorite", async (req, res) => {
+  const { productId, phone } = req.body;
+  try {
+    console.log("=======================DELETE=====================");
+    console.log(productId);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

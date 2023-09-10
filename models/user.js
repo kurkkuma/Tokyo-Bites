@@ -8,15 +8,15 @@ const userSchema = new Schema({
   },
   phone: {
     type: String,
-    require: false,
+    require: true,
   },
   address: {
     type: String,
-    require: false,
+    require: true,
   },
   favorites: {
     type: Array,
-    require: false,
+    require: true,
   },
 });
 
