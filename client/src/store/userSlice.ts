@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FavoriteType } from "../components/favorite/Favorite";
 
-interface User {
+interface IUser {
+  _id?: string | null;
   name: string;
   phone: string;
   address: string;
@@ -9,11 +10,12 @@ interface User {
 }
 
 interface UserState {
-  user: User;
+  user: IUser;
 }
 
 const initialState: UserState = {
   user: {
+    _id: null,
     name: "",
     phone: "+380",
     address: "",
@@ -34,19 +36,11 @@ export const userSlice = createSlice({
     setAddress: (state, action: PayloadAction<string>) => {
       state.user.address = action.payload;
     },
-    setFavorite: (state, action: PayloadAction<FavoriteType>) => {
-      state.user.favorites.push(action.payload);
-    },
-    deleteFavorite: (state, action: PayloadAction<string>) => {
-      state.user.favorites = state.user.favorites.filter(
-        (item: FavoriteType) => {
-          return item._id !== action.payload;
-        }
-      );
+    setUser: (state, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
     },
   },
 });
 
-export const { setName, setPhone, setAddress, setFavorite, deleteFavorite } =
-  userSlice.actions;
+export const { setName, setPhone, setAddress, setUser } = userSlice.actions;
 export default userSlice.reducer;

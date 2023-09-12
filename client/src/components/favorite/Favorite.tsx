@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { useDeleteFavoritesMutation } from "../../store/api/userApi";
-import { deleteFavorite } from "../../store/userSlice";
-import { handleDeleteFavorite } from "../menu/CardInfo";
+
 export interface FavoriteType {
   _id: string;
   url: string;
@@ -14,7 +12,7 @@ export interface FavoriteType {
 function Favorite() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const user = useAppSelector((state) => state.user.user);
-  const [deleteFavoriteApi] = useDeleteFavoritesMutation();
+  // const [deleteFavoriteApi] = useDeleteFavoritesMutation();
 
   const favoritesDispatch = useAppDispatch();
 
@@ -32,14 +30,6 @@ function Favorite() {
             <li key={index} className="favorite-item-container">
               <div className="favorite-info">
                 <img
-                  onClick={async () => {
-                    favoritesDispatch(deleteFavorite(item._id));
-                    await handleDeleteFavorite(
-                      item._id,
-                      user.phone,
-                      deleteFavoriteApi
-                    );
-                  }}
                   className="favorite-icon"
                   src={`/images/icons/${
                     isHovered ? "favorite-transparent" : "favorite-full"

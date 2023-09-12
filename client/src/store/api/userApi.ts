@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     addUser: builder.mutation({
       query: (body) => ({
@@ -10,33 +11,39 @@ export const userApi = createApi({
         method: "POST",
         body,
       }),
+      providesTags: (_result: any) => ["User"],
     }),
-    // updateFavorites: builder.mutation({
+    // addFavorite: builder.mutation({
     //   query: (body) => ({
-    //     url: "update-favorites",
+    //     url: "add-favorite",
     //     method: "POST",
     //     body,
     //   }),
+    //   invalidatesTags: ["User"],
     // }),
-    addFavorite: builder.mutation({
+
+    // deleteFavorites: builder.mutation({
+    //   query: (body) => ({
+    //     url: "delete-favorite",
+    //     method: "DELETE",
+    //     body,
+    //   }),
+    //   invalidatesTags: ["User"],
+    // }),
+    updateFavorites: builder.mutation({
       query: (body) => ({
-        url: "add-favorite",
-        method: "POST",
+        url: "update-favorite",
+        method: "PUT",
         body,
       }),
-    }),
-    deleteFavorites: builder.mutation({
-      query: (body) => ({
-        url: "delete-favorite",
-        method: "DELETE",
-        body,
-      }),
+      invalidatesTags: ["User"],
     }),
   }),
 });
 
 export const {
   useAddUserMutation,
-  useAddFavoriteMutation,
-  useDeleteFavoritesMutation,
+  // useAddFavoriteMutation,
+  // useDeleteFavoritesMutation,
+  useUpdateFavoritesMutation,
 } = userApi;

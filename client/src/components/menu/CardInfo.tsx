@@ -1,41 +1,42 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  useAddFavoriteMutation,
-  useDeleteFavoritesMutation,
-} from "../../store/api/userApi";
-import { setFavorite, deleteFavorite } from "../../store/userSlice";
+// import {
+//   useAddFavoriteMutation,
+//   useDeleteFavoritesMutation,
+// } from "../../store/api/userApi";
+import { useUpdateFavoritesMutation } from "../../store/api/userApi";
+// import { setFavorite, deleteFavorite } from "../../store/userSlice";
 import { FavoriteType } from "../favorite/Favorite";
 
-const handleAddFavorite = async (
-  product: FavoriteType,
-  phone: string,
-  addFavorite
-) => {
-  try {
-    await addFavorite({
-      product: product,
-      phone: phone,
-    }).unwrap();
-    return true;
-  } catch (error) {
-    console.error("Failed to add favorite:", error);
-    return false;
-  }
-};
-export const handleDeleteFavorite = async (
-  id: string,
-  phone: string,
-  deleteFavorite
-) => {
-  try {
-    await deleteFavorite({ productId: id, phone: phone }).unwrap();
-    return true;
-  } catch (error) {
-    console.error("Failed to delete favorite:", error);
-    return false;
-  }
-};
+// const handleAddFavorite = async (
+//   product: FavoriteType,
+//   phone: string,
+//   addFavorite
+// ) => {
+//   try {
+//     await addFavorite({
+//       product: product,
+//       phone: phone,
+//     }).unwrap();
+//     return true;
+//   } catch (error) {
+//     console.error("Failed to add favorite:", error);
+//     return false;
+//   }
+// };
+// export const handleDeleteFavorite = async (
+//   id: string,
+//   phone: string,
+//   deleteFavorite
+// ) => {
+//   try {
+//     await deleteFavorite({ productId: id, phone: phone }).unwrap();
+//     return true;
+//   } catch (error) {
+//     console.error("Failed to delete favorite:", error);
+//     return false;
+//   }
+// };
 
 interface CardInfoProps {
   url: string;
@@ -69,42 +70,55 @@ function CardInfo({
   tags,
 }: CardInfoProps) {
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
-  const favorites = useAppSelector((state) => state.user.user.favorites);
   const user = useAppSelector((state) => state.user.user);
-  const [addFavoriteApi, { isSuccess }] = useAddFavoriteMutation();
-  const [deleteFavoriteApi] = useDeleteFavoritesMutation();
-  const favoritesDispatch = useAppDispatch();
+  // const user = useAppSelector((state) => state.user.user);
+  // const [addFavoriteApi, { isSuccess }] = useAddFavoriteMutation();
+  // const [deleteFavoriteApi] = useDeleteFavoritesMutation();
+  const [updateFavoritesApi, { isSuccess }] = useUpdateFavoritesMutation();
+  // const favoritesDispatch = useAppDispatch();
 
   const getFavoriteIconPath = () => {
-    const isFavorite = favorites.some(
+    const isFavorite = user.favorites.some(
       (item: FavoriteType) => item._id === activeCard
     );
     return isFavorite
-      ? "images/icons/favorite-full.png"
-      : "images/icons/favorite-transparent.png";
+      ? "/images/icons/favorite-full.png"
+      : "/images/icons/favorite-transparent.png";
   };
 
   const handleToggleFavorite = async () => {
-    if (favorites.some((item: FavoriteType) => item._id === activeCard)) {
-      favoritesDispatch(deleteFavorite(activeCard));
-      await handleDeleteFavorite(activeCard, user.phone, deleteFavoriteApi);
-    } else {
-      const productToFavorite = {
-        _id: activeCard,
-        url: url,
-        name: name,
-        tags: tags,
-        price: price,
-      };
-
-      favoritesDispatch(setFavorite(productToFavorite));
-      await handleAddFavorite(productToFavorite, user.phone, addFavoriteApi);
+    try {
+      const payload = await updateFavoritesApi({
+        userId: user._id,
+        productId: activeCard,
+      }).unwrap();
+      console.log(payload);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites]);
+  // const handleToggleFavorite = async () => {
+  //   if (favorites.some((item: FavoriteType) => item._id === activeCard)) {
+  //     favoritesDispatch(deleteFavorite(activeCard));
+  //     await handleDeleteFavorite(activeCard, user.phone, deleteFavoriteApi);
+  //   } else {
+  //     const productToFavorite = {
+  //       _id: activeCard,
+  //       url: url,
+  //       name: name,
+  //       tags: tags,
+  //       price: price,
+  //     };
+
+  //     favoritesDispatch(setFavorite(productToFavorite));
+  //     await handleAddFavorite(productToFavorite, user.phone, addFavoriteApi);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   console.log(user.favorites);
+  // }, [user]);
 
   return (
     <div
@@ -136,6 +150,7 @@ function CardInfo({
         </div>
         <p className="title">Description</p>
         <p className="description">{description}</p>
+
         <p
           onClick={() => setIsShowComposition(!isShowComposition)}
           className="title-composition"

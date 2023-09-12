@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAddUserMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setName, setPhone, setAddress } from "../../store/userSlice";
+import { setName, setPhone, setAddress, setUser } from "../../store/userSlice";
 import loading from "/images/loading.gif";
 
 function Profile() {
@@ -19,9 +19,14 @@ function Profile() {
     ) {
       const phoneRegex = /^\+380\d{9}$/;
       if (phoneRegex.test(user.phone)) {
-        await addUser(user).unwrap();
-        if (isSuccess) {
-          localStorage.setItem("user", JSON.stringify(user));
+        try {
+          const payload = await addUser(user).unwrap();
+          if (payload) {
+            console.log(payload.user);
+            userDispatch(setUser(payload.user));
+          }
+        } catch (error) {
+          console.log(error);
         }
       } else {
         setErrors((prev) => [
@@ -36,11 +41,13 @@ function Profile() {
       ]);
     }
   };
+
   const handleReset = () => {
     userDispatch(setName(""));
     userDispatch(setPhone("+380"));
     userDispatch(setAddress(""));
   };
+
   return (
     <div className="profile">
       <img
