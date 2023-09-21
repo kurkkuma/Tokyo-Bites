@@ -1,7 +1,0 @@
-[build]
-  base = ""
-  command = "npm run build" 
-  publish = "client"  
-[functions]
-  directory = "server"
-  command = "node index.js"
