@@ -1,0 +1,21 @@
+{
+  "name": "tokyo-bites",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kurkkuma/Tokyo-Bites.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kurkkuma/Tokyo-Bites/issues"
+  },
+  "homepage": "https://github.com/kurkkuma/Tokyo-Bites#readme"
+}
