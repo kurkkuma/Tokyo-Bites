@@ -1,6 +1,6 @@
 .burger-menu {
   position: fixed;
-  left: 0;
+  left: -130px;
   top: 40px;
   width: 130px;
   display: flex;
@@ -14,13 +14,14 @@
     width: 90px;
   }
 
-  & li {
+  & .menu-link {
     padding: 0.7rem;
     list-style: none;
     border-bottom: 1px solid rgb(105, 105, 105);
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-decoration: none;
 
     &:nth-child(1) {
       transition: all 0.2s ease;
@@ -46,7 +47,7 @@
     &.menu-open {
       opacity: 1;
       background-color: #16171b;
-      transform: translateX(0%);
+      transform: translateX(130px);
 
       &:hover {
         background-color: #3d4044;
@@ -58,8 +59,8 @@
       transform: translateX(-100%);
     }
 
-    .menu-link {
-      color: white;
+    & li {
+      color: rgb(255, 255, 255);
       text-decoration: none;
       font-size: 1.2rem;
       text-transform: capitalize;

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 type MenuItem = string;
@@ -13,14 +12,13 @@ function BurgerMenu({ menuItems, isOpenMenu }: BurgerMenuProps) {
     <ul className="burger-menu">
       {menuItems.map((item: string, index: number) => {
         return (
-          <li
-            className={`${isOpenMenu ? "menu-open" : "menu-close"}`}
+          <Link
+            className={`menu-link ${isOpenMenu ? "menu-open" : "menu-close"}`}
             key={index}
+            to={`/${item}`}
           >
-            <Link className="menu-link" to={`/${item}`}>
-              {item}
-            </Link>
-          </li>
+            <li>{item}</li>
+          </Link>
         );
       })}
     </ul>

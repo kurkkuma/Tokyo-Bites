@@ -39,8 +39,23 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
+    addFavorite: (state, action: PayloadAction<FavoriteType>) => {
+      state.user.favorites.push(action.payload);
+    },
+    deleteFavorite: (state, action: PayloadAction<string>) => {
+      state.user.favorites = state.user.favorites.filter(
+        (item) => item._id !== action.payload
+      );
+    },
   },
 });
 
-export const { setName, setPhone, setAddress, setUser } = userSlice.actions;
+export const {
+  setName,
+  setPhone,
+  setAddress,
+  setUser,
+  addFavorite,
+  deleteFavorite,
+} = userSlice.actions;
 export default userSlice.reducer;

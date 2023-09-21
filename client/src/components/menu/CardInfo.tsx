@@ -1,42 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-// import {
-//   useAddFavoriteMutation,
-//   useDeleteFavoritesMutation,
-// } from "../../store/api/userApi";
 import { useUpdateFavoritesMutation } from "../../store/api/userApi";
-// import { setFavorite, deleteFavorite } from "../../store/userSlice";
+import { addFavorite, deleteFavorite } from "../../store/userSlice";
 import { FavoriteType } from "../favorite/Favorite";
-
-// const handleAddFavorite = async (
-//   product: FavoriteType,
-//   phone: string,
-//   addFavorite
-// ) => {
-//   try {
-//     await addFavorite({
-//       product: product,
-//       phone: phone,
-//     }).unwrap();
-//     return true;
-//   } catch (error) {
-//     console.error("Failed to add favorite:", error);
-//     return false;
-//   }
-// };
-// export const handleDeleteFavorite = async (
-//   id: string,
-//   phone: string,
-//   deleteFavorite
-// ) => {
-//   try {
-//     await deleteFavorite({ productId: id, phone: phone }).unwrap();
-//     return true;
-//   } catch (error) {
-//     console.error("Failed to delete favorite:", error);
-//     return false;
-//   }
-// };
 
 interface CardInfoProps {
   url: string;
@@ -67,15 +33,11 @@ function CardInfo({
   carbohydrates,
   activeCardRow,
   activeCard,
-  tags,
 }: CardInfoProps) {
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
   const user = useAppSelector((state) => state.user.user);
-  // const user = useAppSelector((state) => state.user.user);
-  // const [addFavoriteApi, { isSuccess }] = useAddFavoriteMutation();
-  // const [deleteFavoriteApi] = useDeleteFavoritesMutation();
-  const [updateFavoritesApi, { isSuccess }] = useUpdateFavoritesMutation();
-  // const favoritesDispatch = useAppDispatch();
+  const [updateFavoritesApi] = useUpdateFavoritesMutation();
+  const favoritesDispatch = useAppDispatch();
 
   const getFavoriteIconPath = () => {
     const isFavorite = user.favorites.some(
@@ -92,33 +54,16 @@ function CardInfo({
         userId: user._id,
         productId: activeCard,
       }).unwrap();
-      console.log(payload);
+
+      if (payload.message == "add") {
+        favoritesDispatch(addFavorite(payload.data));
+      } else {
+        favoritesDispatch(deleteFavorite(payload.data));
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
-  // const handleToggleFavorite = async () => {
-  //   if (favorites.some((item: FavoriteType) => item._id === activeCard)) {
-  //     favoritesDispatch(deleteFavorite(activeCard));
-  //     await handleDeleteFavorite(activeCard, user.phone, deleteFavoriteApi);
-  //   } else {
-  //     const productToFavorite = {
-  //       _id: activeCard,
-  //       url: url,
-  //       name: name,
-  //       tags: tags,
-  //       price: price,
-  //     };
-
-  //     favoritesDispatch(setFavorite(productToFavorite));
-  //     await handleAddFavorite(productToFavorite, user.phone, addFavoriteApi);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log(user.favorites);
-  // }, [user]);
 
   return (
     <div

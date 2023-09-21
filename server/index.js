@@ -72,7 +72,7 @@ app.put("/update-favorite", async (req, res) => {
     if (isProductInFavorites) {
       await user.updateOne({ $pull: { favorites: { _id: productObjectId } } });
       console.log("DELETE");
-      res.status(200).json({ message: "Product removed from favorites" });
+      res.status(200).json({ message: "delete", data: productId });
     } else {
       const product = await Product.findById(productId);
       const newProduct = {
@@ -84,7 +84,7 @@ app.put("/update-favorite", async (req, res) => {
       };
       await user.updateOne({ $push: { favorites: newProduct } });
       console.log("ADD");
-      res.status(200).json({ message: "Product added to favorites" });
+      res.status(200).json({ message: "add", data: newProduct });
     }
   } catch (error) {
     console.log(error);
@@ -92,35 +92,21 @@ app.put("/update-favorite", async (req, res) => {
   }
 });
 
-// app.post("/add-favorite", async (req, res) => {
-//   const { product, phone } = req.body;
-
-//   try {
-//     console.log("=======================ADD=====================");
-//     console.log(product);
-//     res.status(200);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-// app.delete("/delete-favorite", async (req, res) => {
-//   const { productId, phone } = req.body;
-//   try {
-//     console.log("=======================DELETE=====================");
-//     console.log(productId);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-
 app.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
   } catch (error) {
     console.error("Error fetching products:", error);
+  }
+});
+
+app.get("/reviews", async (req, res) => {
+  try {
+    const reviews = await Review.find();
+    res.json(reviews);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
   }
 });
 
@@ -137,14 +123,6 @@ app.post("/add-review", async (req, res) => {
   }
 });
 
-app.get("/reviews", async (req, res) => {
-  try {
-    const reviews = await Review.find();
-    res.json(reviews);
-  } catch (error) {
-    console.error("Error fetching reviews:", error);
-  }
-});
 //запуск сервера
 app.listen(PORT, () => {
   try {

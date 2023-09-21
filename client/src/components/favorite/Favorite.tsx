@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { useUpdateFavoritesMutation } from "../../store/api/userApi";
+import { deleteFavorite } from "../../store/userSlice";
 
 export interface FavoriteType {
   _id: string;
@@ -12,13 +14,20 @@ export interface FavoriteType {
 function Favorite() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const user = useAppSelector((state) => state.user.user);
-  // const [deleteFavoriteApi] = useDeleteFavoritesMutation();
-
+  const [updateFavoritesApi] = useUpdateFavoritesMutation();
   const favoritesDispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   handleDeleteFavorite(user.favorites, user.phone, updateFavorites);
-  // }, [user.favorites]);
+  const handleDeleteFavorite = async (id: string) => {
+    try {
+      const payload = await updateFavoritesApi({
+        userId: user._id,
+        productId: id,
+      }).unwrap();
+      favoritesDispatch(deleteFavorite(payload.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="favorite-container">
@@ -37,6 +46,7 @@ function Favorite() {
                   alt="favorite-img"
                   onMouseEnter={() => setHoveredItem(item._id)}
                   onMouseLeave={() => setHoveredItem(null)}
+                  onClick={() => handleDeleteFavorite(item._id)}
                 />
                 <img
                   className="favorite-img"
@@ -45,7 +55,9 @@ function Favorite() {
                 />
                 <p className="favorite-name">{item.name}</p>
                 <p className="favorite-tags">
-                  {item.tags.map((tag: string) => tag + " ,")}
+                  {item.tags.map((tag: string, index: number) =>
+                    index === item.tags.length - 1 ? tag : tag + ", "
+                  )}
                 </p>
               </div>
               <div className="favorite-price-count">

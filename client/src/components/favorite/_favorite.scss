@@ -18,34 +18,78 @@
 
     .favorite-item-container {
       width: 100%;
-
       display: flex;
       justify-content: space-between;
+
+      @media (max-width: 580px) {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #494949;
+      }
 
       .favorite-info {
         width: 80%;
         display: flex;
         align-items: center;
+        justify-content: center;
 
+        @media (max-width: 970px) {
+          font-size: 0.7rem;
+        }
         .favorite-icon {
           width: 30px;
           height: 30px;
           cursor: pointer;
+          @media (max-width: 900px) {
+            width: 25px;
+            height: 25px;
+          }
+          @media (max-width: 390px) {
+            width: 20px;
+            height: 20px;
+          }
         }
         .favorite-img {
           width: 100px;
           height: 100px;
           margin: 0 2rem;
+
+          @media (max-width: 1050px) {
+            width: 80px;
+            height: 80px;
+          }
+          @media (max-width: 600px) {
+            width: 65px;
+            height: 65px;
+          }
+          @media (max-width: 390px) {
+            width: 50px;
+            height: 50px;
+            margin: 0 1rem;
+          }
         }
         .favorite-name {
           color: white;
           font-size: 1rem;
           font-family: "Ungai", sans-serif;
+          white-space: nowrap;
+
+          @media (max-width: 390px) {
+            width: 50px;
+            height: 50px;
+            margin: 0 1rem;
+            white-space: wrap;
+            padding-top: 2.5rem;
+          }
         }
         .favorite-tags {
           color: rgb(124, 124, 124);
           font-size: 1.1rem;
           margin: 0 2rem;
+          @media (max-width: 790px) {
+            display: none;
+          }
         }
       }
       .favorite-price-count {
@@ -54,10 +98,19 @@
         align-items: center;
         font-size: 1rem;
         justify-content: space-between;
+        white-space: nowrap;
+        margin-bottom: 0.5rem;
+
+        @media (max-width: 580px) {
+          margin-top: 1rem;
+          justify-content: center;
+          gap: 3rem;
+        }
 
         .price {
           color: white;
           font-weight: bold;
+          margin-right: 1rem;
         }
         .add {
           display: flex;
@@ -68,6 +121,10 @@
             width: 25px;
             height: 25px;
             cursor: pointer;
+            @media (max-width: 970px) {
+              width: 20px;
+              height: 20px;
+            }
           }
           .count {
             color: white;
