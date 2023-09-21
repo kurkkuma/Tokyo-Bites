@@ -3,4 +3,5 @@
   command = "npm run build" 
   publish = "client"  
 [functions]
-  directory = "server" 
+  directory = "server"
+  command = "node index.js"
