@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 export const reviewsApi = createApi({
   reducerPath: "reviewsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://tokyo-bites-api.onrender.com",
+  }),
   endpoints: (builder) => ({
     addReview: builder.mutation({
       query: (body) => ({
