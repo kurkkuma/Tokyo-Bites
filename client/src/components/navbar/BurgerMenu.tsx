@@ -5,11 +5,12 @@ type MenuItem = string;
 interface BurgerMenuProps {
   menuItems: MenuItem[];
   isOpenMenu: boolean;
+  menuRef: any;
 }
 
-function BurgerMenu({ menuItems, isOpenMenu }: BurgerMenuProps) {
+function BurgerMenu({ menuItems, isOpenMenu, menuRef }: BurgerMenuProps) {
   return (
-    <ul className="burger-menu">
+    <ul ref={menuRef} className="burger-menu">
       {menuItems.map((item: string, index: number) => {
         return (
           <Link

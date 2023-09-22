@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import BurgerMenu from "./BurgerMenu";
@@ -6,10 +6,24 @@ import BurgerMenu from "./BurgerMenu";
 function Navbar() {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const user = useAppSelector((state) => state.user.user);
+  const menuRef = useRef<HTMLUListElement | null>(null);
+
+  const handleOutsideClick = (event: { target: any }) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpenMenu(false);
+    }
+  };
 
   const handleOpenMenu = () => {
     setIsOpenMenu((prev) => !prev);
   };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const menuItems: string[] = [
     "menu",
@@ -30,7 +44,11 @@ function Navbar() {
         alt="menu-bar"
       />
 
-      <BurgerMenu menuItems={menuItems} isOpenMenu={isOpenMenu} />
+      <BurgerMenu
+        menuRef={menuRef}
+        menuItems={menuItems}
+        isOpenMenu={isOpenMenu}
+      />
 
       <h1 className="title">Tokyo Bites</h1>
 

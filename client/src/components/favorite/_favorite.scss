@@ -19,7 +19,7 @@
     .favorite-item-container {
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
 
       @media (max-width: 580px) {
         flex-direction: column;
@@ -32,10 +32,13 @@
         width: 80%;
         display: flex;
         align-items: center;
-        justify-content: center;
 
         @media (max-width: 970px) {
           font-size: 0.7rem;
+        }
+
+        @media (max-width: 390px) {
+          justify-content: center;
         }
         .favorite-icon {
           width: 30px;
