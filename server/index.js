@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -15,8 +16,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const db =
-  "mongodb+srv://mouse:mouse2505@project1.ft7wvam.mongodb.net/tokyo-bites-db?retryWrites=true&w=majority";
+const db = process.env.DB_URL;
 mongoose
   .connect(db)
   .then(() => console.log("connected to db"))
@@ -56,8 +56,6 @@ app.put("/update-favorite", async (req, res) => {
   const { userId, productId } = req.body;
 
   try {
-    console.log("------------------------------------");
-
     const user = await User.findById(userId);
 
     if (!user) {
@@ -71,7 +69,6 @@ app.put("/update-favorite", async (req, res) => {
 
     if (isProductInFavorites) {
       await user.updateOne({ $pull: { favorites: { _id: productObjectId } } });
-      console.log("DELETE");
       res.status(200).json({ message: "delete", data: productId });
     } else {
       const product = await Product.findById(productId);
@@ -83,7 +80,6 @@ app.put("/update-favorite", async (req, res) => {
         price: product.price,
       };
       await user.updateOne({ $push: { favorites: newProduct } });
-      console.log("ADD");
       res.status(200).json({ message: "add", data: newProduct });
     }
   } catch (error) {

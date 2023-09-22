@@ -1,7 +1,5 @@
-import React from "react";
 import Reviews from "./reviews/Reviews";
 import Feedback from "./feedback/Feedback";
-import Footer from "../footer/Footer";
 
 function About() {
   return (
