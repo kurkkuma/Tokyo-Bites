@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -23,6 +24,10 @@ mongoose
   .catch((err) => console.log(err));
 
 // =========================================================================
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/index.html"));
+});
 
 app.post("/add-user", async (req, res) => {
   const { name, phone, address, favorites } = req.body;
