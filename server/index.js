@@ -11,7 +11,13 @@ const Review = require("./models/review");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-app.use(cors());
+app.use(
+  cors({
+    origin: "tokyo-bites.vercel.app",
+    methods: ["POST", "GET", "PUT"],
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
