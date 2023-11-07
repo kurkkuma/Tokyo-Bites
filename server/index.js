@@ -14,16 +14,10 @@ const PORT = process.env.PORT || 8080;
 app.use(
   cors({
     origin: "https://tokyo-bites.vercel.app/",
-    methods: ["POST", "GET", "PUT"],
+    methods: ["GET", "POST", "PUT"],
     credentials: true,
   })
 );
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://tokyo-bites.vercel.app/");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT");
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
