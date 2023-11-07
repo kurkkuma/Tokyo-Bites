@@ -110,6 +110,8 @@ app.get("/products", async (req, res) => {
 app.get("/reviews", async (req, res) => {
   try {
     const reviews = await Review.find();
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.json(reviews);
   } catch (error) {
     console.error("Error fetching reviews:", error);
