@@ -108,11 +108,6 @@ function Feedback() {
               onChange={(e) => setReviewText(e.target.value)}
               placeholder="Write your review"
             ></textarea>
-            <img
-              className="clip"
-              src="/images/icons/clip.png"
-              alt="add-photo"
-            />
           </div>
 
           <button onClick={handleSendReview} className="btn">

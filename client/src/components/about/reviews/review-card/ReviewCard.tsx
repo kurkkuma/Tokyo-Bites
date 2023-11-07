@@ -19,7 +19,6 @@ function ReviewCard({ userName, date, stars, text }: ReviewCardProps) {
         <p className="stars">{"★".repeat(stars)}</p>
         <p className="review-text">{text}</p>
       </div>
-      <p className="photo">No photos</p>
     </div>
   );
 }

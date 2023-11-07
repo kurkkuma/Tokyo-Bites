@@ -26,13 +26,11 @@ function Navbar() {
   }, []);
 
   const menuItems: string[] = [
+    "about",
     "menu",
     "basket",
     "favorite",
     "profile",
-    "about",
-    "contests",
-    "chat",
   ];
 
   return (
