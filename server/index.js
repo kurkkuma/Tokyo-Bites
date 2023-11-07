@@ -13,11 +13,15 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(
   cors({
-    origin: "https://tokyo-bites.vercel.app/",
+    origin: "https://tokyo-bites.vercel.app",
     methods: ["GET", "POST", "PUT"],
     credentials: true,
   })
 );
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
