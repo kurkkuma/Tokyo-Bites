@@ -12,20 +12,40 @@
     },
     {
       "src": "/menu",
-      "dest": "/menu"
+      "dest": "/menu.html"
     },
     {
       "src": "/about",
-      "dest": "/about"
+      "dest": "/about.html"
     },
     {
       "src": "/favorite",
-      "dest": "/favorite"
+      "dest": "/favorite.html"
     },
 
     {
       "src": "/basket",
-      "dest": "/basket"
+      "dest": "/basket.html"
+    },
+    {
+      "src": "/products",
+      "dest": "/products"
+    },
+    {
+      "src": "/reviews",
+      "dest": "/reviews"
+    },
+    {
+      "src": "/add-user",
+      "dest": "/add-user"
+    },
+    {
+      "src": "/update-favorite",
+      "dest": "/update-favorite"
+    },
+    {
+      "src": "/add-review",
+      "dest": "/add-review"
     }
   ]
 }
