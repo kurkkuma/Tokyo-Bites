@@ -1,0 +1,31 @@
+{
+  "builds": [
+    {
+      "src": "*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/"
+    },
+    {
+      "src": "/menu",
+      "dest": "/menu"
+    },
+    {
+      "src": "/about",
+      "dest": "/about"
+    },
+    {
+      "src": "/favorite",
+      "dest": "/favorite"
+    },
+
+    {
+      "src": "/basket",
+      "dest": "/basket"
+    }
+  ]
+}
