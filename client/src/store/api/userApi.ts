@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/",
+    baseUrl: "https://tokyo-bites-api.onrender.com/",
   }),
   endpoints: (builder) => ({
     addUser: builder.mutation({
