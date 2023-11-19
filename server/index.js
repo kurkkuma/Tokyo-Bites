@@ -23,6 +23,9 @@ mongoose
   .catch((err) => console.log(err));
 
 // =========================================================================
+app.get("/", (req, res) => {
+  res.send("Tokyo Bites server");
+});
 
 app.post("/add-user", async (req, res) => {
   const { name, phone, address, favorites } = req.body;
