@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 import About from "./about/About";
 import Navbar from "./navbar/Navbar";
@@ -9,7 +9,7 @@ import Menu from "./menu/Menu";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Navbar />
       <Routes>
@@ -20,7 +20,7 @@ function App() {
         <Route path="/menu" element={<Menu />} />
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 
