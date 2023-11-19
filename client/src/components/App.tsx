@@ -9,20 +9,18 @@ import Menu from "./menu/Menu";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<About />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/favorite" element={<Favorite />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/menu" element={<Menu />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<About />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/favorite" element={<Favorite />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/menu" element={<Menu />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
