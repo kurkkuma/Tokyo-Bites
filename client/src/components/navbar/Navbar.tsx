@@ -69,7 +69,7 @@ function Navbar() {
             className="avatar"
             src={
               user.name.length > 0 &&
-              user.phone.length === 13 &&
+              user.phone.length >= 9 &&
               user.address.length > 0
                 ? "/images/icons/avatar.png"
                 : "/images/icons/avatar-warning.png"

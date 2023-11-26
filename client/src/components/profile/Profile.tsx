@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAddUserMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUser } from "../../store/userSlice";
@@ -13,26 +13,33 @@ function Profile() {
   const userDispatch = useAppDispatch();
   const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
   const [errors, setErrors] = useState<string[]>([]);
+  const [message, setMessage] = useState<string>("");
+
+  useEffect(() => {
+    setUserName(user.name);
+    setUserPhone(user.phone);
+    setUserAddress(user.address);
+  }, []);
 
   const handleUpdateUser = async () => {
     setErrors([]);
 
     if (
-      user.name.trim() !== "" &&
-      user.phone.trim().length >= 9 &&
-      user.address.trim() !== ""
+      userName.trim() !== "" &&
+      userPhone.trim().length >= 9 &&
+      userAddress.trim() !== ""
     ) {
       try {
         const newUser = {
           name: userName,
           phone: userPhone,
           address: userAddress,
-          favorites: [],
         };
-        console.log(newUser);
+
         const payload = await addUser(newUser).unwrap();
-        if (payload) {
+        if (payload.user) {
           userDispatch(setUser(payload.user));
+          setMessage(payload.message);
         }
       } catch (error) {
         console.log(error);
@@ -95,22 +102,22 @@ function Profile() {
         {isLoading && (
           <img src={loading} style={{ width: "2rem", height: "2rem" }} />
         )}
-        {isSuccess && <p className="success">Success!</p>}
-        {isError && <p className="error">Error! Please try again</p>}
-
-        {errors.length === 0 &&
-          (user.name === "" ||
-            user.phone === "+380" ||
-            user.address === "") && (
-            <p className="error">Please fill in all fields</p>
-          )}
-        {errors.map((error, index) => {
-          return (
-            <p key={index} className="error">
-              {error}
-            </p>
-          );
-        })}
+        <div className="messages">
+          {isSuccess && <p className="success">Success! </p>}
+          {message && <p className="success">{message}</p>}
+          {isError && <p className="error">Error! Please try again</p>}
+          {errors.length === 0 &&
+            (userName === "" || userPhone === "" || userAddress === "") && (
+              <p className="error">Please fill in all fields</p>
+            )}
+          {errors.map((error, index) => {
+            return (
+              <p key={index} className="error">
+                {error}
+              </p>
+            );
+          })}
+        </div>
 
         <button onClick={handleUpdateUser}>SAVE</button>
         <p

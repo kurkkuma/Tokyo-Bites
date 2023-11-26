@@ -23,7 +23,7 @@ const initialState: UserState = {
   user: {
     _id: null,
     name: "",
-    phone: "+380",
+    phone: "",
     address: "",
     favorites: [],
   },
