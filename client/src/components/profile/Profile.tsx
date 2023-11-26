@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useAddUserMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setName, setPhone, setAddress, setUser } from "../../store/userSlice";
+import { setUser } from "../../store/userSlice";
 import loading from "/images/loading.gif";
 
 function Profile() {
+  const [userName, setUserName] = useState<string>("");
+  const [userPhone, setUserPhone] = useState<string>("");
+  const [userAddress, setUserAddress] = useState<string>("");
+
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
   const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
@@ -12,41 +16,36 @@ function Profile() {
 
   const handleUpdateUser = async () => {
     setErrors([]);
+
     if (
       user.name.trim() !== "" &&
-      user.address.trim() !== "" &&
-      user.phone.trim().length >= 10
+      user.phone.trim().length >= 9 &&
+      user.address.trim() !== ""
     ) {
-      const phoneRegex = /^\+380\d{9}$/;
-      if (phoneRegex.test(user.phone)) {
-        try {
-          const payload = await addUser(user).unwrap();
-          if (payload) {
-            console.log(payload.user);
-            userDispatch(setUser(payload.user));
-          }
-        } catch (error) {
-          console.log(error);
+      try {
+        const newUser = {
+          name: userName,
+          phone: userPhone,
+          address: userAddress,
+          favorites: [],
+        };
+        console.log(newUser);
+        const payload = await addUser(newUser).unwrap();
+        if (payload) {
+          userDispatch(setUser(payload.user));
         }
-      } else {
-        setErrors((prev) => [
-          ...prev,
-          "The phone number must match the pattern +380ХХХХХХХХХ",
-        ]);
+      } catch (error) {
+        console.log(error);
       }
     } else {
       setErrors((prev) => [
         ...prev,
-        "Please complete all fields: name and address",
+        "Please double-check that the fields you filled in are correct.",
       ]);
     }
   };
 
-  const handleReset = () => {
-    userDispatch(setName(""));
-    userDispatch(setPhone("+380"));
-    userDispatch(setAddress(""));
-  };
+  const handleReset = () => {};
 
   return (
     <div className="profile">
@@ -65,35 +64,31 @@ function Profile() {
         <div>
           <input
             className={isSuccess === true ? "success" : ""}
-            onChange={(e) => userDispatch(setName(e.target.value))}
+            onChange={(e) => setUserName(e.target.value)}
             type="text"
             placeholder="Your name"
-            value={user.name}
+            value={userName}
           />
         </div>
         <div>
           <input
             className={isSuccess === true ? "success" : ""}
             onChange={(e) => {
-              userDispatch(setPhone(e.target.value));
+              setUserPhone(e.target.value);
             }}
             type="phone"
-            placeholder="+380XXXXXXXXX"
-            maxLength={13}
-            value={user.phone}
-            style={{
-              color: user.phone.length > 4 ? "white" : "rgb(119,119,119)",
-              fontSize: "1.20rem",
-            }}
+            placeholder="Сontact phone number"
+            maxLength={15}
+            value={userPhone}
           />
         </div>
         <div>
           <input
             className={isSuccess === true ? "success" : ""}
-            onChange={(e) => userDispatch(setAddress(e.target.value))}
+            onChange={(e) => setUserAddress(e.target.value)}
             type="text"
             placeholder="Your shipping address"
-            value={user.address}
+            value={userAddress}
           />
         </div>
 

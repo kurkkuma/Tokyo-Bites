@@ -3,14 +3,6 @@ import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { useUpdateFavoritesMutation } from "../../store/api/userApi";
 import { deleteFavorite } from "../../store/userSlice";
 
-export interface FavoriteType {
-  _id: string;
-  url: string;
-  name: string;
-  tags: string[];
-  price: number;
-}
-
 function Favorite() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const user = useAppSelector((state) => state.user.user);
@@ -33,7 +25,7 @@ function Favorite() {
     <div className="favorite-container">
       <h1 className="favorite-title">Your favorites</h1>
       <ul className="favorite-list">
-        {user.favorites.map((item: FavoriteType, index: number) => {
+        {user.favorites.map((item, index: number) => {
           const isHovered = hoveredItem === item._id;
           return (
             <li key={index} className="favorite-item-container">

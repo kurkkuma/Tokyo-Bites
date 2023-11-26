@@ -31,7 +31,6 @@ app.use("/", productRoute);
 const reviewRoute = require("./routes/Review");
 app.use("/", reviewRoute);
 
-//запуск сервера
 app.listen(PORT, () => {
   try {
     console.log(`server has been started ${PORT}...`);

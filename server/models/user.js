@@ -17,6 +17,7 @@ const userSchema = new Schema({
   favorites: {
     type: Array,
     require: true,
+    default: [],
   },
 });
 
