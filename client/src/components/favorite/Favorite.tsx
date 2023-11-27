@@ -1,21 +1,24 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { useUpdateFavoritesMutation } from "../../store/api/userApi";
+import { useDeleteFavoriteMutation } from "../../store/api/userApi";
 import { deleteFavorite } from "../../store/userSlice";
 
 function Favorite() {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const user = useAppSelector((state) => state.user.user);
-  const [updateFavoritesApi] = useUpdateFavoritesMutation();
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [deleteFavoriteApi] = useDeleteFavoriteMutation();
   const favoritesDispatch = useAppDispatch();
 
   const handleDeleteFavorite = async (id: string) => {
     try {
-      const payload = await updateFavoritesApi({
+      const payload = await deleteFavoriteApi({
         userId: user._id,
         productId: id,
       }).unwrap();
-      favoritesDispatch(deleteFavorite(payload.data));
+
+      if (payload.message === "deleted favorite product") {
+        favoritesDispatch(deleteFavorite(id));
+      }
     } catch (error) {
       console.log(error);
     }

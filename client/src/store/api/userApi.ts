@@ -14,15 +14,25 @@ export const userApi = createApi({
         body,
       }),
     }),
-
-    updateFavorites: builder.mutation({
+    addFavorite: builder.mutation({
       query: (body) => ({
-        url: "update-favorite",
+        url: "add-favorite",
         method: "PUT",
+        body,
+      }),
+    }),
+    deleteFavorite: builder.mutation({
+      query: (body) => ({
+        url: "delete-favorite",
+        method: "DELETE",
         body,
       }),
     }),
   }),
 });
 
-export const { useAddUserMutation, useUpdateFavoritesMutation } = userApi;
+export const {
+  useAddUserMutation,
+  useAddFavoriteMutation,
+  useDeleteFavoriteMutation,
+} = userApi;

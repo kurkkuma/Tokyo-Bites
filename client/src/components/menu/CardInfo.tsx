@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useUpdateFavoritesMutation } from "../../store/api/userApi";
-import { addFavorite, deleteFavorite } from "../../store/userSlice";
-import { FavoriteType } from "../favorite/Favorite";
+import { addFavorite, deleteFavorite, IFavorite } from "../../store/userSlice";
+import {
+  useAddFavoriteMutation,
+  useDeleteFavoriteMutation,
+} from "../../store/api/userApi";
 
 interface CardInfoProps {
   url: string;
@@ -33,32 +35,56 @@ function CardInfo({
   carbohydrates,
   activeCardRow,
   activeCard,
+  tags,
 }: CardInfoProps) {
-  const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
   const user = useAppSelector((state) => state.user.user);
-  const [updateFavoritesApi] = useUpdateFavoritesMutation();
+  const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
+  const [addFavoriteApi] = useAddFavoriteMutation();
+  const [deleteFavoriteApi] = useDeleteFavoriteMutation();
   const favoritesDispatch = useAppDispatch();
 
-  const getFavoriteIconPath = () => {
-    const isFavorite = user.favorites.some(
-      (item: FavoriteType) => item._id === activeCard
-    );
-    return isFavorite
-      ? "/images/icons/favorite-full.png"
-      : "/images/icons/favorite-transparent.png";
+  const existenceCheck = (): boolean => {
+    return user.favorites.some((item) => item._id === activeCard);
+  };
+
+  const handleFailureAdd = (id: string) => {
+    favoritesDispatch(deleteFavorite(id));
+  };
+
+  const handleFailureDelete = (product: IFavorite) => {
+    favoritesDispatch(addFavorite(product));
   };
 
   const handleToggleFavorite = async () => {
     try {
-      const payload = await updateFavoritesApi({
-        userId: user._id,
-        productId: activeCard,
-      }).unwrap();
+      const newFavorite = {
+        _id: activeCard,
+        url,
+        name,
+        price,
+        tags,
+      };
 
-      if (payload.message == "add") {
-        favoritesDispatch(addFavorite(payload.data));
+      if (existenceCheck()) {
+        favoritesDispatch(deleteFavorite(activeCard));
+
+        const payload = await deleteFavoriteApi({
+          userId: user._id,
+          productId: activeCard,
+        }).unwrap();
+
+        if (payload.message !== "deleted favorite product") {
+          handleFailureDelete(newFavorite);
+        }
       } else {
-        favoritesDispatch(deleteFavorite(payload.data));
+        favoritesDispatch(addFavorite(newFavorite));
+        const payload = await addFavoriteApi({
+          userId: user._id,
+          newFavorite,
+        }).unwrap();
+        if (payload.message !== "added new favorite product") {
+          handleFailureAdd(activeCard);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -76,10 +102,14 @@ function CardInfo({
       <img src={url} alt="card-img" />
       <div className="info">
         <p className="name">
-          {name}{" "}
+          {name}
           <img
             className="favorite-transparent"
-            src={getFavoriteIconPath()}
+            src={
+              existenceCheck()
+                ? "/images/icons/favorite-full.png"
+                : "/images/icons/favorite-transparent.png"
+            }
             alt="favorite-icon"
             onClick={handleToggleFavorite}
           />

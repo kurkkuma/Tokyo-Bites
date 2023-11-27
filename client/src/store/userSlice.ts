@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface IFavorite {
+export interface IFavorite {
   _id: string;
   url: string;
   name: string;
