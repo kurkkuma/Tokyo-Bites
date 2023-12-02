@@ -6,6 +6,7 @@ export const userApi = createApi({
     // baseUrl: "https://tokyo-bites-api.onrender.com/",
     baseUrl: "http://localhost:8080/",
   }),
+
   endpoints: (builder) => ({
     addUser: builder.mutation({
       query: (body) => ({
