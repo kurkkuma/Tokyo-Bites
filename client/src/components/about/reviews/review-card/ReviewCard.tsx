@@ -1,11 +1,31 @@
+import { useDeleteReviewMutation } from "../../../../store/api/reviewsApi";
+
 interface ReviewCardProps {
+  id: string;
   userName: string;
   date: string;
   stars: number;
   text: string;
+  deleteSign: boolean;
 }
 
-function ReviewCard({ userName, date, stars, text }: ReviewCardProps) {
+function ReviewCard({
+  id,
+  userName,
+  date,
+  stars,
+  text,
+  deleteSign,
+}: ReviewCardProps) {
+  const [deleteReviewApi] = useDeleteReviewMutation();
+
+  const handleDelteReview = async () => {
+    try {
+      await deleteReviewApi({ reviewId: id }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="review-card">
       <div className="review-container">
@@ -15,6 +35,11 @@ function ReviewCard({ userName, date, stars, text }: ReviewCardProps) {
             <p className="name">{userName}</p>
             <p className="date">{date}</p>
           </div>
+          {deleteSign && (
+            <p onClick={handleDelteReview} className="delete-sign">
+              x
+            </p>
+          )}
         </div>
         <p className="stars">{"★".repeat(stars)}</p>
         <p className="review-text">{text}</p>

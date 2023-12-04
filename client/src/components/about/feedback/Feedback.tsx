@@ -21,14 +21,20 @@ function Feedback() {
       const month = String(new Date().getMonth() + 1).padStart(2, "0");
       const year = new Date().getFullYear();
 
-      await addReview({
-        userName: user.name,
-        date: `${day}.${month}.${year}`,
-        stars: selectedStars,
-        text: reviewText,
-      }).unwrap();
-      setReviewText("");
-      setError("");
+      try {
+        await addReview({
+          userId: user._id,
+          userName: user.name,
+          date: `${day}.${month}.${year}`,
+          stars: selectedStars,
+          text: reviewText,
+        }).unwrap();
+        setSelectedStars(null);
+        setReviewText("");
+        setError("");
+      } catch (error: any) {
+        setError(error.data.error || "An error occurred");
+      }
     } else {
       setError("You must rate a star to submit a review.");
     }
@@ -119,9 +125,11 @@ function Feedback() {
             <img src={loading} style={{ width: "2rem", height: "2rem" }} />
           )}
 
-          {isError && <p className="error">Error</p>}
+          {isError && <p className="error">Error! Try again, please.</p>}
           {error && (
-            <p className="warning">You must rate a star to submit a review.</p>
+            <p className="warning" style={{ marginTop: 10 }}>
+              {error}
+            </p>
           )}
         </form>
       </div>
