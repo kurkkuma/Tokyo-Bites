@@ -2,38 +2,35 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const { encrypt, decrypt } = require("../crypto");
+const { encrypt, decrypt } = require("../encryption");
 
 router.post("/add-user", async (req, res) => {
-  const { name, phone, address, password } = req.body;
+  const { name, phone, address } = req.body;
 
   try {
-    const existingUser = await User.findOne({ password });
+    const existingUser = await User.findOne({ phone });
 
     if (existingUser) {
-      if (
-        existingUser.name === name &&
-        existingUser.address === address &&
-        existingUser.phone === phone
-      ) {
+      if (existingUser.name === name && existingUser.address === address) {
         return res.status(200).json({ message: "verification was successful" });
       } else {
         (existingUser.name = name),
           (existingUser.address = encrypt(address)),
-          (existingUser.address = encrypt(phone)),
           await existingUser.save();
         return res.status(200).json({
           message:
             "The data associated with this phone number has been updated.",
-          user: req.body,
+          user: {
+            ...existingUser.toObject(),
+            address: decrypt(existingUser.address),
+          },
         });
       }
     } else {
       const user = new User({
         name,
-        phone: encrypt(phone),
+        phone,
         address: encrypt(address),
-        password,
       });
       await user.save();
 

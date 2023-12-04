@@ -8,8 +8,6 @@ function Profile() {
   const [userName, setUserName] = useState<string>("");
   const [userPhone, setUserPhone] = useState<string>("");
   const [userAddress, setUserAddress] = useState<string>("");
-  const [userPassword, setUserPassword] = useState<string>("");
-  const [viewPassword, setViewPassword] = useState<boolean>(false);
 
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
@@ -21,7 +19,6 @@ function Profile() {
     setUserName(user.name);
     setUserPhone(user.phone);
     setUserAddress(user.address);
-    setUserPassword(user.password);
   }, []);
 
   const handleUpdateUser = async () => {
@@ -30,15 +27,13 @@ function Profile() {
     if (
       userName.trim() !== "" &&
       userPhone.trim().length >= 9 &&
-      userAddress.trim() !== "" &&
-      userPassword.trim().length > 5
+      userAddress.trim() !== ""
     ) {
       try {
         const newUser = {
           name: userName,
           phone: userPhone,
           address: userAddress,
-          password: userPassword,
         };
 
         const payload = await addUser(newUser).unwrap();
@@ -52,7 +47,7 @@ function Profile() {
     } else {
       setErrors((prev) => [
         ...prev,
-        "Please double-check that the fields you filled in are correct. Reminder: Password must be more than 5 characters",
+        "Please double-check that the fields you filled in are correct. ",
       ]);
     }
   };
@@ -100,30 +95,6 @@ function Profile() {
             placeholder="Your shipping address"
             value={userAddress}
           />
-        </div>
-        <div>
-          <input
-            className={isSuccess === true ? "success" : ""}
-            onChange={(e) => setUserPassword(e.target.value)}
-            type={viewPassword ? "text" : "password"}
-            placeholder="Your password"
-            value={userPassword}
-          />
-          {viewPassword ? (
-            <img
-              onClick={() => setViewPassword(false)}
-              className="password-eye"
-              src="/images/icons/hide.png"
-              alt="watch the password"
-            />
-          ) : (
-            <img
-              onClick={() => setViewPassword(true)}
-              className="password-eye"
-              src="/images/icons/view.png"
-              alt="watch the password"
-            />
-          )}
         </div>
 
         {isLoading && (

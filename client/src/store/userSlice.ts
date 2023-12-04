@@ -12,7 +12,6 @@ interface IUser {
   name: string;
   phone: string;
   address: string;
-  password: string;
   favorites: IFavorite[];
 }
 
@@ -26,7 +25,6 @@ const initialState: UserState = {
     name: "",
     phone: "",
     address: "",
-    password: "",
     favorites: [],
   },
 };
