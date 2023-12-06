@@ -20,11 +20,11 @@ function Card({
   rowIndex,
 }: CardProps) {
   return (
-    <div
-      className={`card ${id === activeCard ? "active" : ""}`}
-      onClick={() => handleCardClick(id, rowIndex)}
-    >
-      <div className="card-info-container">
+    <div className={`card ${id === activeCard ? "active" : ""}`}>
+      <div
+        className="card-info-container"
+        onClick={() => handleCardClick(id, rowIndex)}
+      >
         <img src={url} alt="card-img" />
         <p className="name">{name}</p>
         <p className="description">
@@ -36,11 +36,7 @@ function Card({
 
       <div className="price-count">
         <p className="price">{price} USD</p>
-        <div className="add">
-          <img src="/images/icons/minus.png" alt="minus-icon" />
-          <p className="count">0 pcs</p>
-          <img src="/images/icons/plus.png" alt="plus-icon" />
-        </div>
+        <button className="add-basket-btn">ADD TO BASKET</button>
       </div>
     </div>
   );

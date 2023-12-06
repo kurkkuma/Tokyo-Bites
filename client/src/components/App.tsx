@@ -6,6 +6,7 @@ import Footer from "./footer/Footer";
 import Favorite from "./favorite/Favorite";
 import Profile from "./profile/Profile";
 import Menu from "./menu/Menu";
+import Basket from "./basket/Basket";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/basket" element={<Basket />} />
       </Routes>
       <Footer />
     </>

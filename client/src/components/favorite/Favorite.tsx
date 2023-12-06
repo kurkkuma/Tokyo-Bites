@@ -27,6 +27,7 @@ function Favorite() {
   return (
     <div className="favorite-container">
       <h1 className="favorite-title">Your favorites</h1>
+
       <ul className="favorite-list">
         {user.favorites.map((item, index: number) => {
           const isHovered = hoveredItem === item._id;
@@ -55,18 +56,20 @@ function Favorite() {
                   )}
                 </p>
               </div>
-              <div className="favorite-price-count">
-                <p className="price">{item.price} USD</p>
-                <div className="add">
-                  <img src="/images/icons/minus.png" alt="minus-icon" />
-                  <p className="count">{0} pcs</p>
-                  <img src="/images/icons/plus.png" alt="plus-icon" />
-                </div>
-              </div>
+              <img
+                className="add-basket"
+                src="/images/icons/add-basket.png"
+                alt="add to basket icon"
+              />
             </li>
           );
         })}
       </ul>
+      <img
+        className="sushi-photo"
+        src="/images/favorites-sushi.png"
+        alt="sushi photo"
+      />
     </div>
   );
 }
