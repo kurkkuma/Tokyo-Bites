@@ -13,8 +13,8 @@ function Basket() {
             <p className="favorite-name">Item name</p>
             <p className="favorite-tags">
               {/* {item.tags.map((tag: string, index: number) =>
-                    index === item.tags.length - 1 ? tag : tag + ", "
-                  )} */}
+                index === item.tags.length - 1 ? tag : tag + ", "
+              )} */}
               tags tags tags tags
             </p>
           </div>
@@ -28,11 +28,7 @@ function Basket() {
           </div>
         </li>
       </ul>
-      <img
-        className="sushi-photo"
-        src="/images/basket-sushi.png"
-        alt="sushi photo"
-      />
+      <button className="btn-try"></button>
     </div>
   );
 }

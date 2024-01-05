@@ -5,13 +5,9 @@
   flex-direction: column;
   align-items: center;
 
-  .sushi-photo {
-    margin-top: 3rem;
-    width: 290px;
-    height: 180px;
-    filter: brightness(90%);
+  @media (max-width: 586px) {
+    width: 90%;
   }
-
   .favorite-title {
     margin-top: 110px;
     color: white;
@@ -43,17 +39,21 @@
         height: 20px;
       }
     }
+    .add-basket-container {
+      align-self: center;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      .price {
+        color: rgb(124, 124, 124);
+        font-size: 1.1rem;
+        margin: 0 2rem;
+      }
+    }
     .favorite-item-container {
       width: 100%;
       display: flex;
       justify-content: flex-start;
-
-      @media (max-width: 580px) {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        border-bottom: 1px solid #494949;
-      }
 
       .favorite-info {
         width: 80%;
@@ -62,10 +62,6 @@
 
         @media (max-width: 970px) {
           font-size: 0.7rem;
-        }
-
-        @media (max-width: 390px) {
-          justify-content: center;
         }
 
         .favorite-img {
@@ -96,7 +92,7 @@
           @media (max-width: 390px) {
             width: 50px;
             height: 50px;
-            margin: 0 1rem;
+
             white-space: wrap;
             padding-top: 2.5rem;
           }

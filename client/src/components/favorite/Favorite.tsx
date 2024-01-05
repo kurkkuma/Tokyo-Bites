@@ -56,20 +56,18 @@ function Favorite() {
                   )}
                 </p>
               </div>
-              <img
-                className="add-basket"
-                src="/images/icons/add-basket.png"
-                alt="add to basket icon"
-              />
+              <div className="add-basket-container">
+                <p className="price">40 USD</p>
+                <img
+                  className="add-basket"
+                  src="/images/icons/add-basket.png"
+                  alt="add to basket icon"
+                />
+              </div>
             </li>
           );
         })}
       </ul>
-      <img
-        className="sushi-photo"
-        src="/images/favorites-sushi.png"
-        alt="sushi photo"
-      />
     </div>
   );
 }
