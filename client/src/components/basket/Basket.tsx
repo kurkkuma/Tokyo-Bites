@@ -22,7 +22,7 @@ function Basket() {
             <p className="price">73 USD</p>
             <div className="add">
               <img src="/images/icons/minus.png" alt="minus-icon" />
-              <p className="count">0 pcs</p>
+              <p className="count">1 pcs</p>
               <img src="/images/icons/plus.png" alt="plus-icon" />
             </div>
           </div>

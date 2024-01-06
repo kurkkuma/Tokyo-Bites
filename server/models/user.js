@@ -23,6 +23,11 @@ const userSchema = new Schema({
     require: true,
     default: [],
   },
+  basket: {
+    type: Array,
+    require: true,
+    default: [],
+  },
 });
 
 const User = mongoose.model("User", userSchema, "users");

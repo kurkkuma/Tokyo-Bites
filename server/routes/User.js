@@ -32,12 +32,12 @@ router.post("/add-user", async (req, res) => {
         phone,
         address: encrypt(address),
       });
-      await user.save();
+      const savedUser = await user.save();
 
       res.status(200).json({
         message:
           "Account created! The name and address are associated with the phone number you provided.",
-        user: req.body,
+        user: savedUser,
       });
     }
   } catch (error) {
@@ -90,6 +90,23 @@ router.delete("/delete-favorite", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to add new favorite product" });
+  }
+});
+
+router.put("/add-basket-item", async (req, res) => {
+  try {
+    const { userId, newBasketItem } = req.body;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    await user.updateOne({ $push: { basket: newBasketItem } });
+    res.status(200).json({ message: "added a new product to basket" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to add a new product to basket" });
   }
 });
 

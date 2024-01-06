@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { useDeleteFavoriteMutation } from "../../store/api/userApi";
-import { deleteFavorite } from "../../store/userSlice";
+import {
+  IBasketItem,
+  addToBasket,
+  deleteFavorite,
+} from "../../store/userSlice";
 
 function Favorite() {
   const user = useAppSelector((state) => state.user.user);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [deleteFavoriteApi] = useDeleteFavoriteMutation();
-  const favoritesDispatch = useAppDispatch();
+  const userDispatch = useAppDispatch();
 
   const handleDeleteFavorite = async (id: string) => {
     try {
@@ -17,10 +21,19 @@ function Favorite() {
       }).unwrap();
 
       if (payload.message === "deleted favorite product") {
-        favoritesDispatch(deleteFavorite(id));
+        userDispatch(deleteFavorite(id));
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleAddToBasket = (id: string) => {
+    const favoriteItem = user.favorites.find((item) => item._id === id);
+
+    if (favoriteItem) {
+      const newBasketItem: IBasketItem = { ...favoriteItem, count: 1 };
+      userDispatch(addToBasket(newBasketItem));
     }
   };
 
@@ -57,8 +70,9 @@ function Favorite() {
                 </p>
               </div>
               <div className="add-basket-container">
-                <p className="price">40 USD</p>
+                <p className="price">{item.price} USD</p>
                 <img
+                  onClick={() => handleAddToBasket(item._id)}
                   className="add-basket"
                   src="/images/icons/add-basket.png"
                   alt="add to basket icon"

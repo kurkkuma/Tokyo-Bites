@@ -53,7 +53,13 @@ function Navbar() {
       <div className="icons">
         <div className="basket-container">
           <p className="basket-info">0 pcs | 0 USD</p>
-          <img className="basket" src="/images/icons/basket.png" alt="basket" />
+          <Link to="/basket">
+            <img
+              className="basket"
+              src="/images/icons/basket.png"
+              alt="basket"
+            />
+          </Link>
         </div>
 
         <Link to="/favorite">

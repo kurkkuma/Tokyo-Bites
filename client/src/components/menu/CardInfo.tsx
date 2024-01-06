@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { addFavorite, deleteFavorite, IFavorite } from "../../store/userSlice";
+import {
+  addToFavorite,
+  deleteFavorite,
+  IFavoriteItem,
+} from "../../store/userSlice";
 import {
   useAddFavoriteMutation,
   useDeleteFavoriteMutation,
@@ -41,18 +45,18 @@ function CardInfo({
   const [isShowComposition, setIsShowComposition] = useState<boolean>(false);
   const [addFavoriteApi] = useAddFavoriteMutation();
   const [deleteFavoriteApi] = useDeleteFavoriteMutation();
-  const favoritesDispatch = useAppDispatch();
+  const userDispatch = useAppDispatch();
 
   const existenceCheck = (): boolean => {
     return user.favorites.some((item) => item._id === activeCard);
   };
 
   const handleFailureAdd = (id: string) => {
-    favoritesDispatch(deleteFavorite(id));
+    userDispatch(deleteFavorite(id));
   };
 
-  const handleFailureDelete = (product: IFavorite) => {
-    favoritesDispatch(addFavorite(product));
+  const handleFailureDelete = (product: IFavoriteItem) => {
+    userDispatch(addToFavorite(product));
   };
 
   const handleToggleFavorite = async () => {
@@ -66,7 +70,7 @@ function CardInfo({
       };
 
       if (existenceCheck()) {
-        favoritesDispatch(deleteFavorite(activeCard));
+        userDispatch(deleteFavorite(activeCard));
 
         const payload = await deleteFavoriteApi({
           userId: user._id,
@@ -77,7 +81,7 @@ function CardInfo({
           handleFailureDelete(newFavorite);
         }
       } else {
-        favoritesDispatch(addFavorite(newFavorite));
+        userDispatch(addToFavorite(newFavorite));
         const payload = await addFavoriteApi({
           userId: user._id,
           newFavorite,

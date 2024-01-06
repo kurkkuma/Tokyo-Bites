@@ -1,18 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface IFavorite {
+export interface IFavoriteItem {
   _id: string;
   url: string;
   name: string;
   tags: string[];
   price: number;
 }
+
+export interface IBasketItem extends IFavoriteItem {
+  count: number;
+}
 interface IUser {
   _id?: string | null;
   name: string;
   phone: string;
   address: string;
-  favorites: IFavorite[];
+  favorites: IFavoriteItem[];
+  basket: IBasketItem[];
 }
 
 interface UserState {
@@ -26,6 +31,7 @@ const initialState: UserState = {
     phone: "",
     address: "",
     favorites: [],
+    basket: [],
   },
 };
 
@@ -36,7 +42,7 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
-    addFavorite: (state, action: PayloadAction<IFavorite>) => {
+    addToFavorite: (state, action: PayloadAction<IFavoriteItem>) => {
       state.user.favorites.push(action.payload);
     },
     deleteFavorite: (state, action: PayloadAction<string>) => {
@@ -44,8 +50,13 @@ export const userSlice = createSlice({
         (item) => item._id !== action.payload
       );
     },
+    addToBasket: (state, action: PayloadAction<IBasketItem>) => {
+      console.log("add to basket reducer");
+      state.user.basket.push(action.payload);
+    },
   },
 });
 
-export const { setUser, addFavorite, deleteFavorite } = userSlice.actions;
+export const { setUser, addToFavorite, deleteFavorite, addToBasket } =
+  userSlice.actions;
 export default userSlice.reducer;
