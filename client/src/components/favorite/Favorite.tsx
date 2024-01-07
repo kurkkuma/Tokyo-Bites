@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { useDeleteFavoriteMutation } from "../../store/api/userApi";
+import {
+  useAddToBasketMutation,
+  useDeleteFavoriteMutation,
+} from "../../store/api/userApi";
 import {
   IBasketItem,
+  IFavoriteItem,
   addToBasket,
   deleteFavorite,
 } from "../../store/userSlice";
@@ -11,6 +15,7 @@ function Favorite() {
   const user = useAppSelector((state) => state.user.user);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [deleteFavoriteApi] = useDeleteFavoriteMutation();
+  const [addTobasketApi] = useAddToBasketMutation();
   const userDispatch = useAppDispatch();
 
   const handleDeleteFavorite = async (id: string) => {
@@ -28,13 +33,51 @@ function Favorite() {
     }
   };
 
-  const handleAddToBasket = (id: string) => {
-    const favoriteItem = user.favorites.find((item) => item._id === id);
+  const handleAddToBasket = async (id: string) => {
+    const favoriteItem: IFavoriteItem | undefined = user.favorites.find(
+      (item: IFavoriteItem) => item._id === id
+    );
 
     if (favoriteItem) {
-      const newBasketItem: IBasketItem = { ...favoriteItem, count: 1 };
+      const existBasketItem = user.basket.find((item) => item._id === id);
+
+      const newBasketItem: IBasketItem = {
+        ...favoriteItem,
+        count: existBasketItem ? existBasketItem.count + 1 : 1,
+      };
+
       userDispatch(addToBasket(newBasketItem));
+
+      try {
+        const payload = await addTobasketApi({
+          userId: user._id,
+          newBasketItem,
+        }).unwrap();
+        console.log(payload);
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+    // if (favoriteItem) {
+    //   const existBasketItem = user.basket.find((item) => item._id === id);
+
+    //   const updatedBasketItem = existBasketItem
+    //     ? { ...existBasketItem, count: existBasketItem.count + 1 }
+    //     : { ...favoriteItem, count: 1 };
+
+    //   userDispatch(addToBasket(updatedBasketItem));
+
+    //   try {
+    //     const payload = await addTobasketApi({
+    //       userId: user._id,
+    //       newBasketItem: updatedBasketItem,
+    //     }).unwrap();
+    //     console.log(payload);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
 
   return (

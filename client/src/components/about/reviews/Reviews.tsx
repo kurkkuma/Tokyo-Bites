@@ -79,10 +79,10 @@ function Reviews() {
               {groupedData.map((group, groupIndex: number) => {
                 return (
                   <div key={groupIndex} className="reviews-group">
-                    {group.map((item, index) => {
+                    {group.map((item) => {
                       return (
                         <ReviewCard
-                          key={index}
+                          key={item._id}
                           id={item._id}
                           userName={item.userName}
                           date={item.date}

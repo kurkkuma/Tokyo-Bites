@@ -29,6 +29,20 @@ export const userApi = createApi({
         body,
       }),
     }),
+    addToBasket: builder.mutation({
+      query: (body) => ({
+        url: "add-basket",
+        method: "PUT",
+        body,
+      }),
+    }),
+    // deleteFromBasket: builder.mutation({
+    //   query: (body) => ({
+    //     url: "delete-favorite",
+    //     method: "DELETE",
+    //     body,
+    //   }),
+    // }),
   }),
 });
 
@@ -36,4 +50,5 @@ export const {
   useAddUserMutation,
   useAddFavoriteMutation,
   useDeleteFavoriteMutation,
+  useAddToBasketMutation,
 } = userApi;

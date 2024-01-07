@@ -93,20 +93,38 @@ router.delete("/delete-favorite", async (req, res) => {
   }
 });
 
-router.put("/add-basket-item", async (req, res) => {
-  try {
-    const { userId, newBasketItem } = req.body;
-    const user = await User.findById(userId);
+router.put("/add-basket", async (req, res) => {
+  const { userId, newBasketItem } = req.body;
 
+  try {
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    await user.updateOne({ $push: { basket: newBasketItem } });
-    res.status(200).json({ message: "added a new product to basket" });
+    const existingBasketItem = user.basket.find(
+      (item) => item._id === newBasketItem._id
+    );
+
+    if (!existingBasketItem) {
+      await user.updateOne({ $push: { basket: newBasketItem } });
+
+      return res
+        .status(200)
+        .json({ message: "Added a new product to the basket" });
+    }
+
+    await User.updateOne(
+      { _id: userId, "basket._id": newBasketItem._id },
+      { $inc: { "basket.$.count": 1 } }
+    );
+
+    res
+      .status(200)
+      .json({ message: "Updated the count of the product in the basket" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Failed to add a new product to basket" });
+    res.status(500).json({ error: "Failed to update product in the basket" });
   }
 });
 

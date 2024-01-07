@@ -51,8 +51,15 @@ export const userSlice = createSlice({
       );
     },
     addToBasket: (state, action: PayloadAction<IBasketItem>) => {
-      console.log("add to basket reducer");
-      state.user.basket.push(action.payload);
+      const existingBasketItemIndex = state.user.basket.findIndex(
+        (item) => item._id === action.payload._id
+      );
+
+      if (existingBasketItemIndex !== -1) {
+        state.user.basket[existingBasketItemIndex] = action.payload;
+      } else {
+        state.user.basket.push(action.payload);
+      }
     },
   },
 });

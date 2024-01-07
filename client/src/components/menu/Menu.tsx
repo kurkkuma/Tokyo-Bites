@@ -161,10 +161,10 @@ function Menu() {
         <div className="menu">
           {data
             .filter((item: ProductType) => item._id === activeCard)
-            .map((item: ProductType, index: number) => {
+            .map((item: ProductType) => {
               return (
                 <CardInfo
-                  key={index}
+                  key={item._id}
                   url={item.url}
                   name={item.name}
                   price={item.price}
@@ -201,7 +201,7 @@ function Menu() {
             .map((item: ProductType, index: number) => {
               return (
                 <Card
-                  key={index}
+                  key={item._id}
                   id={item._id}
                   url={item.url}
                   name={item.name}
