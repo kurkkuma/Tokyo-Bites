@@ -1,4 +1,5 @@
 import { useAppSelector } from "../../store/hooks";
+import BasketUtils from "./basketUtils";
 
 function Basket() {
   const user = useAppSelector((state) => state.user.user);
@@ -28,7 +29,17 @@ function Basket() {
                 <div className="add">
                   <img src="/images/icons/minus.png" alt="minus-icon" />
                   <p className="count">{item.count} pcs</p>
-                  <img src="/images/icons/plus.png" alt="plus-icon" />
+                  <BasketUtils id={item._id}>
+                    {(handleAddToBasket) => {
+                      return (
+                        <img
+                          onClick={handleAddToBasket}
+                          src="/images/icons/plus.png"
+                          alt="plus-icon"
+                        />
+                      );
+                    }}
+                  </BasketUtils>
                 </div>
               </div>
             </li>

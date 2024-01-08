@@ -1,27 +1,11 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import CardInfo from "./CardInfo";
-import { useGetProductsQuery } from "../../store/api/productsApi";
-import loading from "/images/loading.gif";
-
-interface ProductType {
-  _id: string;
-  url: string;
-  name: string;
-  price: number;
-  description: string;
-  composition: string;
-  category: string;
-  kcal: number;
-  weight: number;
-  proteins: number;
-  fats: number;
-  carbohydrates: number;
-  tags: string[];
-}
+import { useAppSelector } from "../../store/hooks";
+import { IProduct } from "../../store/productSlice";
 
 function Menu() {
-  const { data = [], isLoading, isError } = useGetProductsQuery({});
+  const products = useAppSelector((state) => state.products.products);
 
   const [activeCard, setActiveCard] = useState<string>("");
   const [activeCardRow, setActiveCardRow] = useState<number>(0);
@@ -76,13 +60,14 @@ function Menu() {
     }
   }, [activeCard]);
 
-  const sortedData = [...data].sort((a, b) => {
+  const sortedData = [...products].sort((a, b) => {
     if (sortOrder === "asc") {
       return a.price - b.price;
     } else {
       return b.price - a.price;
     }
   });
+
   return (
     <>
       <img
@@ -151,20 +136,14 @@ function Menu() {
           })}
         </div>
 
-        {isLoading && (
-          <img
-            src={loading}
-            style={{ width: "2rem", height: "2rem", marginTop: "2rem" }}
-          />
-        )}
-        {isError && <p className="error">Error! Please, try again</p>}
         <div className="menu">
-          {data
-            .filter((item: ProductType) => item._id === activeCard)
-            .map((item: ProductType) => {
+          {products
+            .filter((item: IProduct) => item._id === activeCard)
+            .map((item: IProduct) => {
               return (
                 <CardInfo
                   key={item._id}
+                  _id={item._id}
                   url={item.url}
                   name={item.name}
                   price={item.price}
@@ -178,19 +157,20 @@ function Menu() {
                   activeCardRow={activeCardRow}
                   activeCard={activeCard}
                   tags={item.tags}
+                  category={item.category}
                 />
               );
             })}
           {sortedData
-            .filter((item: ProductType) => item.category === activeCategory)
-            .filter((item: ProductType) => {
+            .filter((item: IProduct) => item.category === activeCategory)
+            .filter((item: IProduct) => {
               if (activeTags.length === 0) {
                 return true;
               } else {
                 return activeTags.every((tag) => item.tags.includes(tag));
               }
             })
-            .filter((item: ProductType) => {
+            .filter((item: IProduct) => {
               if (searchQuery.length > 0) {
                 return item.name
                   .toLowerCase()
@@ -198,7 +178,7 @@ function Menu() {
               }
               return true;
             })
-            .map((item: ProductType, index: number) => {
+            .map((item: IProduct, index: number) => {
               return (
                 <Card
                   key={item._id}

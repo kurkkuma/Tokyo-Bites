@@ -4,15 +4,14 @@ import {
   useAddToBasketMutation,
   useDeleteFavoriteMutation,
 } from "../../store/api/userApi";
-import {
-  IBasketItem,
-  IFavoriteItem,
-  addToBasket,
-  deleteFavorite,
-} from "../../store/userSlice";
+import { addToBasket, deleteFavorite } from "../../store/userSlice";
+import basketUtils from "../basket/basketUtils";
+import BasketUtils from "../basket/basketUtils";
 
 function Favorite() {
+  // const handleAddToBasket = basketUtils();
   const user = useAppSelector((state) => state.user.user);
+  const products = useAppSelector((state) => state.products.products);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [deleteFavoriteApi] = useDeleteFavoriteMutation();
   const [addTobasketApi] = useAddToBasketMutation();
@@ -33,52 +32,30 @@ function Favorite() {
     }
   };
 
-  const handleAddToBasket = async (id: string) => {
-    const favoriteItem: IFavoriteItem | undefined = user.favorites.find(
-      (item: IFavoriteItem) => item._id === id
-    );
+  // const handleAddToBasketFromFav = async (id: string) => {
+  //   const favoriteItem: IFavoriteItem | undefined = user.favorites.find(
+  //     (item: IFavoriteItem) => item._id === id
+  //   );
 
-    if (favoriteItem) {
-      const existBasketItem = user.basket.find((item) => item._id === id);
+  //   if (favoriteItem) {
+  //     const newBasketItem: IBasketItem = {
+  //       ...favoriteItem,
+  //       count: 1,
+  //     };
 
-      const newBasketItem: IBasketItem = {
-        ...favoriteItem,
-        count: existBasketItem ? existBasketItem.count + 1 : 1,
-      };
+  //     userDispatch(addToBasket(newBasketItem));
 
-      userDispatch(addToBasket(newBasketItem));
-
-      try {
-        const payload = await addTobasketApi({
-          userId: user._id,
-          newBasketItem,
-        }).unwrap();
-        console.log(payload);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    // if (favoriteItem) {
-    //   const existBasketItem = user.basket.find((item) => item._id === id);
-
-    //   const updatedBasketItem = existBasketItem
-    //     ? { ...existBasketItem, count: existBasketItem.count + 1 }
-    //     : { ...favoriteItem, count: 1 };
-
-    //   userDispatch(addToBasket(updatedBasketItem));
-
-    //   try {
-    //     const payload = await addTobasketApi({
-    //       userId: user._id,
-    //       newBasketItem: updatedBasketItem,
-    //     }).unwrap();
-    //     console.log(payload);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-  };
+  //     try {
+  //       const payload = await addTobasketApi({
+  //         userId: user._id,
+  //         newBasketItem,
+  //       }).unwrap();
+  //       console.log(payload);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   return (
     <div className="favorite-container">
@@ -114,12 +91,19 @@ function Favorite() {
               </div>
               <div className="add-basket-container">
                 <p className="price">{item.price} USD</p>
-                <img
-                  onClick={() => handleAddToBasket(item._id)}
-                  className="add-basket"
-                  src="/images/icons/add-basket.png"
-                  alt="add to basket icon"
-                />
+
+                <BasketUtils id={item._id}>
+                  {(handleAddToBasket) => {
+                    return (
+                      <img
+                        onClick={handleAddToBasket}
+                        className="add-basket"
+                        src="/images/icons/add-basket.png"
+                        alt="add to basket icon"
+                      />
+                    );
+                  }}
+                </BasketUtils>
               </div>
             </li>
           );

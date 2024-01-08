@@ -1,3 +1,5 @@
+import BasketUtils from "../basket/basketUtils";
+
 interface CardProps {
   id: string;
   url: string;
@@ -36,7 +38,15 @@ function Card({
 
       <div className="price-count">
         <p className="price">{price} USD</p>
-        <button className="add-basket-btn">ADD TO BASKET</button>
+        <BasketUtils id={id}>
+          {(handleAddToBasket) => {
+            return (
+              <button onClick={handleAddToBasket} className="add-basket-btn">
+                ADD TO BASKET
+              </button>
+            );
+          }}
+        </BasketUtils>
       </div>
     </div>
   );

@@ -56,7 +56,7 @@ export const userSlice = createSlice({
       );
 
       if (existingBasketItemIndex !== -1) {
-        state.user.basket[existingBasketItemIndex] = action.payload;
+        state.user.basket[existingBasketItemIndex].count += 1;
       } else {
         state.user.basket.push(action.payload);
       }

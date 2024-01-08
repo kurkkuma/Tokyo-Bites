@@ -9,24 +9,15 @@ import {
   useAddFavoriteMutation,
   useDeleteFavoriteMutation,
 } from "../../store/api/userApi";
-
-interface CardInfoProps {
-  url: string;
-  name: string;
-  price: number;
-  description: string;
-  composition: string;
-  kcal: number;
-  weight: number;
-  fats: number;
-  proteins: number;
-  carbohydrates: number;
+import { IProduct } from "../../store/productSlice";
+import BasketUtils from "../basket/basketUtils";
+interface CardInfoProps extends IProduct {
   activeCardRow: number;
   activeCard: string;
-  tags: string[];
 }
 
 function CardInfo({
+  _id,
   url,
   name,
   price,
@@ -97,6 +88,7 @@ function CardInfo({
 
   return (
     <div
+      key={_id}
       className="card-info"
       id="card-info"
       style={{
@@ -122,9 +114,18 @@ function CardInfo({
           <p className="price">{price} USD</p>
 
           <div className="add">
-            <img src="/images/icons/minus.png" alt="minus-icon" />
-            <p className="count">{0} pcs</p>
-            <img src="/images/icons/plus.png" alt="plus-icon" />
+            <BasketUtils id={_id}>
+              {(handleAddToBasket) => {
+                return (
+                  <button
+                    onClick={handleAddToBasket}
+                    className="add-basket-btn"
+                  >
+                    ADD TO BASKET
+                  </button>
+                );
+              }}
+            </BasketUtils>
           </div>
         </div>
         <p className="title">Description</p>
