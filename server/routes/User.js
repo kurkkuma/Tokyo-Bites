@@ -89,7 +89,7 @@ router.delete("/delete-favorite", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Failed to add new favorite product" });
+    res.status(500).json({ error: "Failed to remove the favorite product" });
   }
 });
 
@@ -125,6 +125,43 @@ router.put("/add-basket", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to update product in the basket" });
+  }
+});
+
+router.delete("/delete-basket", async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const productObjectId = new mongoose.Types.ObjectId(productId);
+
+    const productIndex = user.basket.findIndex(
+      (item) => String(item._id) === String(productObjectId)
+    );
+
+    if (productIndex !== -1) {
+      if (user.basket[productIndex].count > 1) {
+        user.basket[productIndex].count -= 1;
+      } else {
+        user.basket.splice(productIndex, 1);
+      }
+
+      await user.markModified("basket");
+      await user.save();
+
+      res.status(200).json({ message: "deleted the product from basket" });
+    } else {
+      res
+        .status(404)
+        .json({ message: "Basket product could not be found with this id" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to remove new product from basket" });
   }
 });
 

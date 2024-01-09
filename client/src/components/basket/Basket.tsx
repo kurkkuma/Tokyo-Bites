@@ -1,8 +1,26 @@
-import { useAppSelector } from "../../store/hooks";
+import { useDeleteFromBasketMutation } from "../../store/api/userApi";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { removeFromBasket } from "../../store/userSlice";
 import BasketUtils from "./basketUtils";
 
 function Basket() {
   const user = useAppSelector((state) => state.user.user);
+  const userDispatch = useAppDispatch();
+  const [removeFromBasketApi] = useDeleteFromBasketMutation();
+
+  const handleRemoveFromBasket = async (id: string) => {
+    userDispatch(removeFromBasket(id));
+
+    try {
+      const payload = await removeFromBasketApi({
+        userId: user._id,
+        productId: id,
+      }).unwrap();
+      console.log(payload);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="basket-container">
@@ -27,7 +45,11 @@ function Basket() {
               <div className="favorite-price-count">
                 <p className="price">{item.price} USD</p>
                 <div className="add">
-                  <img src="/images/icons/minus.png" alt="minus-icon" />
+                  <img
+                    onClick={() => handleRemoveFromBasket(item._id)}
+                    src="/images/icons/minus.png"
+                    alt="minus-icon"
+                  />
                   <p className="count">{item.count} pcs</p>
                   <BasketUtils id={item._id}>
                     {(handleAddToBasket) => {

@@ -61,9 +61,27 @@ export const userSlice = createSlice({
         state.user.basket.push(action.payload);
       }
     },
+    removeFromBasket: (state, action: PayloadAction<string>) => {
+      const selectedProductIndex = state.user.basket.findIndex(
+        (item) => item._id === action.payload
+      );
+
+      if (state.user.basket[selectedProductIndex].count === 1) {
+        state.user.basket = state.user.basket.filter(
+          (item) => item._id !== action.payload
+        );
+      } else {
+        state.user.basket[selectedProductIndex].count -= 1;
+      }
+    },
   },
 });
 
-export const { setUser, addToFavorite, deleteFavorite, addToBasket } =
-  userSlice.actions;
+export const {
+  setUser,
+  addToFavorite,
+  deleteFavorite,
+  addToBasket,
+  removeFromBasket,
+} = userSlice.actions;
 export default userSlice.reducer;
