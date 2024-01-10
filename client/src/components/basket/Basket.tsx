@@ -2,6 +2,7 @@ import { useDeleteFromBasketMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { removeFromBasket } from "../../store/userSlice";
 import BasketUtils from "./basketUtils";
+import { handleAmountBasket } from "./basketUtils";
 
 function Basket() {
   const user = useAppSelector((state) => state.user.user);
@@ -28,21 +29,17 @@ function Basket() {
       <ul className="basket-list">
         {user.basket.map((item) => {
           return (
-            <li key={item._id} className="favorite-item-container">
-              <div className="favorite-info">
-                <img
-                  className="favorite-img"
-                  src={item.url}
-                  alt="product-img"
-                />
-                <p className="favorite-name">{item.name}</p>
-                <p className="favorite-tags">
+            <li key={item._id} className="basket-item-container">
+              <div className="basket-info">
+                <img className="basket-img" src={item.url} alt="product-img" />
+                <p className="basket-name">{item.name}</p>
+                <p className="basket-tags">
                   {item.tags.map((tag: string, index: number) =>
                     index === item.tags.length - 1 ? tag : tag + ", "
                   )}
                 </p>
               </div>
-              <div className="favorite-price-count">
+              <div className="basket-price-count">
                 <p className="price">{item.price} USD</p>
                 <div className="add">
                   <img
@@ -68,6 +65,10 @@ function Basket() {
           );
         })}
       </ul>
+      <div className="price-amount">
+        <p>Total price: </p>
+        <p>{handleAmountBasket(user.basket)} USD</p>
+      </div>
       <button className="btn-try"></button>
     </div>
   );

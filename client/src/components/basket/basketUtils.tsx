@@ -40,3 +40,7 @@ const BasketUtils: React.FC<BasketUtilsProps> = ({ id, children }) => {
 };
 
 export default BasketUtils;
+
+export const handleAmountBasket = (basket: IBasketItem[]) => {
+  return basket.reduce((acc, curr) => acc + curr.price * curr.count, 0);
+};

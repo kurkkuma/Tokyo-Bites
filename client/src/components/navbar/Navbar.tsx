@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import BurgerMenu from "./BurgerMenu";
+import { handleAmountBasket } from "../basket/basketUtils";
 
 function Navbar() {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -16,6 +17,10 @@ function Navbar() {
 
   const handleOpenMenu = () => {
     setIsOpenMenu((prev) => !prev);
+  };
+
+  const handleCountBasket = () => {
+    return user.basket.reduce((acc, curr) => acc + curr.count, 0);
   };
 
   useEffect(() => {
@@ -52,7 +57,9 @@ function Navbar() {
 
       <div className="icons">
         <div className="basket-container">
-          <p className="basket-info">0 pcs | 0 USD</p>
+          <p className="basket-info">
+            {handleCountBasket()} pcs | {handleAmountBasket(user.basket)} USD
+          </p>
           <Link to="/basket">
             <img
               className="basket"
