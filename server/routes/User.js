@@ -14,15 +14,18 @@ router.post("/add-user", async (req, res) => {
       if (existingUser.name === name && existingUser.address === address) {
         return res.status(200).json({ message: "verification was successful" });
       } else {
-        (existingUser.name = name),
-          (existingUser.address = encrypt(address)),
-          await existingUser.save();
+        existingUser.name = name;
+        existingUser.address = encrypt(address);
+        await existingUser.save();
+
+        const updatedUser = await User.findById(existingUser._id).lean();
+
         return res.status(200).json({
           message:
             "The data associated with this phone number has been updated.",
           user: {
-            ...existingUser.toObject(),
-            address: decrypt(existingUser.address),
+            ...updatedUser,
+            address: decrypt(updatedUser.address),
           },
         });
       }
@@ -34,15 +37,19 @@ router.post("/add-user", async (req, res) => {
       });
       const savedUser = await user.save();
 
+      const newUser = await User.findById(savedUser._id).lean();
+
       res.status(200).json({
         message:
           "Account created! The name and address are associated with the phone number you provided.",
-        user: savedUser,
+        user: { ...newUser, address: decrypt(newUser.address) },
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Failed to save user" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error: Failed to save user" });
   }
 });
 
