@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import {
-  useAddToBasketMutation,
-  useDeleteFavoriteMutation,
-} from "../../store/api/userApi";
-import { addToBasket, deleteFavorite } from "../../store/userSlice";
-import basketUtils from "../basket/basketUtils";
+import { useDeleteFavoriteMutation } from "../../store/api/userApi";
 import BasketUtils from "../basket/basketUtils";
+import { deleteFavorite } from "../../store/userSlice";
 
 function Favorite() {
-  // const handleAddToBasket = basketUtils();
   const user = useAppSelector((state) => state.user.user);
-  const products = useAppSelector((state) => state.products.products);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [deleteFavoriteApi] = useDeleteFavoriteMutation();
-  const [addTobasketApi] = useAddToBasketMutation();
   const userDispatch = useAppDispatch();
 
   const handleDeleteFavorite = async (id: string) => {
@@ -31,31 +24,6 @@ function Favorite() {
       console.log(error);
     }
   };
-
-  // const handleAddToBasketFromFav = async (id: string) => {
-  //   const favoriteItem: IFavoriteItem | undefined = user.favorites.find(
-  //     (item: IFavoriteItem) => item._id === id
-  //   );
-
-  //   if (favoriteItem) {
-  //     const newBasketItem: IBasketItem = {
-  //       ...favoriteItem,
-  //       count: 1,
-  //     };
-
-  //     userDispatch(addToBasket(newBasketItem));
-
-  //     try {
-  //       const payload = await addTobasketApi({
-  //         userId: user._id,
-  //         newBasketItem,
-  //       }).unwrap();
-  //       console.log(payload);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
 
   return (
     <div className="favorite-container">
