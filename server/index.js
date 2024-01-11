@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,6 +18,13 @@ mongoose
   .then(() => console.log("connected to db"))
   .catch((err) => console.log(err));
 
+// =========================================================================
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 // =========================================================================
 app.get("/", (req, res) => {
   res.send("Tokyo Bites server");
