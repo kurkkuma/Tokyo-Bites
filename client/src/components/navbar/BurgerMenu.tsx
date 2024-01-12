@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 
-type MenuItem = string;
-
 interface BurgerMenuProps {
-  menuItems: MenuItem[];
+  menuItems: string[];
   isOpenMenu: boolean;
   menuRef: any;
 }

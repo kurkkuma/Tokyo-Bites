@@ -4,7 +4,7 @@ import { useAddToBasketMutation } from "../../store/api/userApi";
 
 interface BasketUtilsProps {
   id: string;
-  children: (handleAddToBasket: () => void) => React.ReactNode;
+  children: (handleAddToBasket: any) => React.ReactNode;
 }
 
 const BasketUtils: React.FC<BasketUtilsProps> = ({ id, children }) => {

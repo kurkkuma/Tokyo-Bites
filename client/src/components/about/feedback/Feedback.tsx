@@ -16,6 +16,11 @@ function Feedback() {
 
   const handleSendReview = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    if (!user._id) {
+      setError("To post a review please log in");
+      return;
+    }
+
     if (selectedStars) {
       const day = String(new Date().getDate()).padStart(2, "0");
       const month = String(new Date().getMonth() + 1).padStart(2, "0");

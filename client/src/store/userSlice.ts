@@ -74,6 +74,9 @@ export const userSlice = createSlice({
         state.user.basket[selectedProductIndex].count -= 1;
       }
     },
+    logout: (state) => {
+      state.user = initialState.user;
+    },
   },
 });
 
@@ -83,5 +86,6 @@ export const {
   deleteFavorite,
   addToBasket,
   removeFromBasket,
+  logout,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAddUserMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setUser } from "../../store/userSlice";
+import { logout, setUser } from "../../store/userSlice";
 import loading from "/images/loading.gif";
 
 function Profile() {
@@ -19,7 +19,7 @@ function Profile() {
     setUserName(user.name);
     setUserPhone(user.phone);
     setUserAddress(user.address);
-  }, []);
+  }, [user.name, user.phone, user.address]);
 
   const handleUpdateUser = async () => {
     setErrors([]);
@@ -51,7 +51,9 @@ function Profile() {
       ]);
     }
   };
-
+  const handleLogout = () => {
+    userDispatch(logout());
+  };
   return (
     <div className="profile">
       <img
@@ -118,6 +120,9 @@ function Profile() {
         </div>
 
         <button onClick={handleUpdateUser}>SAVE</button>
+        <p onClick={handleLogout} className="logout-btn">
+          Log out of your account
+        </p>
       </div>
       <h1 className="title">Why can you trust us with your data?</h1>
       <ul className="text">

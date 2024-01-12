@@ -8,7 +8,17 @@
   @media (max-width: 850px) {
     padding-top: 8rem;
   }
+  .logout-btn {
+    color: #868686;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    cursor: pointer;
+    transition: color 0.5s ease-in-out;
 
+    &:hover {
+      color: #dfdfdf;
+    }
+  }
   .error {
     font-size: 1rem;
     color: #ff6174;
