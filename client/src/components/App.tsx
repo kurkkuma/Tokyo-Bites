@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "../store/hooks";
 import { loadProducts } from "../store/productSlice";
 import { useGetProductsQuery } from "../store/api/productsApi";
+import Creator from "./creator/Creator";
 
 function App() {
   const { data = [] } = useGetProductsQuery({});
@@ -31,6 +32,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/basket" element={<Basket />} />
+        <Route path="/sets-creator" element={<Creator />} />
       </Routes>
       <Footer />
     </>

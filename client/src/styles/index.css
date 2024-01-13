@@ -12,6 +12,7 @@
 @import url("../components/menu/_cardInfo.scss");
 @import url("../components/favorite/_favorite.scss");
 @import url("../components/basket/_basket.scss");
+@import url("../components/creator/_creator.scss");
 @font-face {
   font-family: "Ungai";
   src: url("./fonts/Ungai.ttf");

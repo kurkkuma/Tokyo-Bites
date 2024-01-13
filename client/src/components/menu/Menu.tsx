@@ -3,6 +3,7 @@ import Card from "./Card";
 import CardInfo from "./CardInfo";
 import { useAppSelector } from "../../store/hooks";
 import { IProduct } from "../../store/productSlice";
+import { Link } from "react-router-dom";
 
 function Menu() {
   const products = useAppSelector((state) => state.products.products);
@@ -81,7 +82,9 @@ function Menu() {
             Master the art of your own taste with a unique roll maker! Create
             your masterpieces in the world of sushi with us!
           </p>
-          <button className="btn-try"></button>
+          <Link to="/sets-creator">
+            <button className="btn-try"></button>
+          </Link>
         </div>
 
         <ul className="catalog">
