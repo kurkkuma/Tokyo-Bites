@@ -13,6 +13,7 @@
 @import url("../components/favorite/_favorite.scss");
 @import url("../components/basket/_basket.scss");
 @import url("../components/creator/_creator.scss");
+
 @font-face {
   font-family: "Ungai";
   src: url("./fonts/Ungai.ttf");
@@ -78,4 +79,4 @@ body {
 /* Цвет при наведении на полосу прокрутки */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #dfdfdf;
-}/*# sourceMappingURL=index.css.map */
+} /*# sourceMappingURL=index.css.map */
