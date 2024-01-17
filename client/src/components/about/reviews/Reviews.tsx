@@ -8,7 +8,6 @@ import { Carousel } from "react-responsive-carousel";
 function Reviews() {
   const user = useAppSelector((state) => state.user.user);
   const { data = [] } = useGetReviewsQuery({});
-  // const [itemsPerGroup, setItemsPerGroup] = useState(3);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const sortedData = [...data].sort((a, b) => {

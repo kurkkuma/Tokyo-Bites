@@ -69,25 +69,32 @@
       }
     }
   }
-  .sushi-list-container {
-    border: 1px solid red;
+
+  .sushi-group {
+    border-bottom: 1px solid #3e3e3e;
+    border-top: 1px solid #3e3e3e;
+    padding-bottom: 10px;
     width: 60%;
-    height: auto;
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
-    .sushi-list {
-      width: 90%;
-      border: 1px solid rgb(34, 255, 0);
-    }
-
-    img {
-      width: 3rem;
-      height: 3rem;
+    .sushi-element {
       cursor: pointer;
-      border: 1px solid rgb(38, 0, 255);
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        transform: scale(0.95);
+      }
+      img {
+        width: 80px;
+        height: 80px;
+      }
+      p {
+        color: #9a9a9a;
+        text-align: center;
+      }
     }
   }
+
   .playground-container {
     width: 60%;
     margin-top: 30px;
@@ -148,17 +155,13 @@
             border: 1px solid #ff6174;
           }
         }
-        .add-set-item {
+        .empty-set-item {
           border-radius: 10px;
           border: 1px solid #3e3e3e;
           width: 90px;
           height: 90px;
           cursor: pointer;
           transition: all 0.25s ease-in-out;
-
-          &:hover {
-            border: 1px solid #dfdfdf;
-          }
         }
       }
     }
@@ -176,6 +179,7 @@
         padding: 10px;
 
         li {
+          margin-top: 5px;
           display: flex;
           justify-content: space-between;
           color: #dfdfdf;
