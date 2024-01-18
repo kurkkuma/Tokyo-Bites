@@ -79,8 +79,8 @@ function Menu() {
       <div className="menu-container">
         <div className="title-container">
           <p className="title">
-            Master the art of your own taste with a unique roll maker! Create
-            your masterpieces in the world of sushi with us!
+            Immerse yourself in the world of flavors and create your ideal sushi
+            set - every ingredient will be the key to a unique experience!
           </p>
           <Link to="/sets-creator">
             <button className="btn-try"></button>

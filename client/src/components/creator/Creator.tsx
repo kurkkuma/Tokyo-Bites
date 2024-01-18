@@ -10,7 +10,6 @@ interface ISetItem {
 function Creator() {
   const [activeCategory, setActiveCategory] = useState<string>("rolls");
   const [activeCells, setActiveCells] = useState<number>(8);
-  // const [selectedProduct, setSelectedProduct] = useState(null);
   const [composition, setComposition] = useState<ISetItem[]>([]);
   const products = useAppSelector((state) => state.products.products);
 
@@ -32,10 +31,19 @@ function Creator() {
     }
   });
 
-  const getQuantity = (description: string) => {
+  const handleCellsChange = (newCellsCount: number) => {
+    setComposition((prev) => prev.slice(0, newCellsCount));
+    setActiveCells(newCellsCount);
+  };
+
+  const getPricePerPiece = (description: string, price: number) => {
     const match = description.match(/\((\d+)\s*pcs\.\)/);
     const quantity = match ? parseInt(match[1], 10) : 1;
-    return quantity;
+    const pricePerPiece = price / quantity;
+    const roundedPrice = Number.isInteger(pricePerPiece)
+      ? pricePerPiece
+      : parseFloat(pricePerPiece.toFixed(1));
+    return roundedPrice;
   };
 
   const handleAddToSet = (id: string) => {
@@ -48,7 +56,10 @@ function Creator() {
         _id: existedProductInSet ? id + Date.now() : id,
         name: selectedProduct.name,
         url: selectedProduct.url,
-        price: selectedProduct.price,
+        price: getPricePerPiece(
+          selectedProduct.description,
+          selectedProduct.price
+        ),
       };
 
       setComposition((prev) => {
@@ -59,6 +70,15 @@ function Creator() {
 
   const handleDeleteFromSet = (id: string) => {
     setComposition((prev) => prev.filter((item) => item._id !== id));
+  };
+
+  const getTotalPrice = () => {
+    const total =
+      composition.reduce((acc, curr) => {
+        return acc + curr.price;
+      }, 0) + 10;
+
+    return Number.isInteger(total) ? total : parseFloat(total.toFixed(1));
   };
 
   return (
@@ -82,12 +102,6 @@ function Creator() {
 
       <div className="sushi-group">
         {filteredProducts.map((item) => {
-          const quantity = getQuantity(item.description);
-          const pricePerPiece = item.price / quantity;
-          const roundedPrice = Number.isInteger(pricePerPiece)
-            ? pricePerPiece
-            : parseFloat(pricePerPiece.toFixed(1));
-
           return (
             <div
               onClick={() => handleAddToSet(item._id)}
@@ -95,7 +109,7 @@ function Creator() {
               key={item._id}
             >
               <img src={item.url} alt={item.name} />
-              <p>{roundedPrice} USD</p>
+              <p>{getPricePerPiece(item.description, item.price)} USD</p>
             </div>
           );
         })}
@@ -109,7 +123,7 @@ function Creator() {
               return (
                 <button
                   onClick={() => {
-                    setActiveCells(item);
+                    handleCellsChange(item);
                   }}
                   className={activeCells === item ? "active cell" : "cell"}
                   key={index}
@@ -142,26 +156,14 @@ function Creator() {
         <div className="sets-info">
           <h3>Set components:</h3>
           <ul className="components">
-            <li>
-              <p>Lorem, ipsum.</p>
-              <p>2 USD</p>
-            </li>
-            <li>
-              <p>Lorem, ipsum.</p>
-              <p>2 USD</p>
-            </li>
-            <li>
-              <p>Lorem, ipsum.</p>
-              <p>2 USD</p>
-            </li>
-            <li>
-              <p>Lorem, ipsum.</p>
-              <p>2 USD</p>
-            </li>
-            <li>
-              <p>Lorem, ipsum.</p>
-              <p>2 USD</p>
-            </li>
+            {composition.map((item) => {
+              return (
+                <li key={item._id}>
+                  <p>{item.name}</p>
+                  <p>{item.price} USD</p>
+                </li>
+              );
+            })}
             <li>
               <p>Extra</p>
               <p>10 USD</p>
@@ -169,7 +171,7 @@ function Creator() {
           </ul>
           <div className="set-price">
             <p>Total set price:</p>
-            <p>36 USD</p>
+            <p>{getTotalPrice()} USD</p>
           </div>
           <div className="btn">
             <button className="add-basket-btn">ADD TO BASKET</button>

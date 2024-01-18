@@ -179,12 +179,16 @@
         padding: 10px;
 
         li {
-          margin-top: 5px;
+          margin-top: 7px;
           display: flex;
           justify-content: space-between;
           color: #dfdfdf;
           font-size: 1rem;
           list-style-type: none;
+
+          &:nth-child(even) {
+            color: #969696;
+          }
         }
       }
       .set-price {
