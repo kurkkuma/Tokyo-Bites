@@ -37,6 +37,7 @@
 }
 .menu-container {
   width: 900px;
+
   margin: 0 auto;
   padding-top: 100px;
   display: flex;
@@ -328,6 +329,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 3.25rem;
     justify-items: center;
+    margin-bottom: 200px;
 
     @media (max-width: 965px) {
       gap: 1rem;

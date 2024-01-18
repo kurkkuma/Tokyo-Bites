@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 import About from "./about/About";
 import Navbar from "./navbar/Navbar";
-import Footer from "./footer/Footer";
 import Favorite from "./favorite/Favorite";
 import Profile from "./profile/Profile";
 import Menu from "./menu/Menu";
@@ -34,7 +33,6 @@ function App() {
         <Route path="/basket" element={<Basket />} />
         <Route path="/sets-creator" element={<Creator />} />
       </Routes>
-      <Footer />
     </>
   );
 }
