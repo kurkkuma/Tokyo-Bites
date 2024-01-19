@@ -10,7 +10,11 @@ function Navbar() {
   const menuRef = useRef<HTMLUListElement | null>(null);
 
   const handleOutsideClick = (event: { target: any }) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target) &&
+      !event.target.classList.contains("menu-bar")
+    ) {
       setIsOpenMenu(false);
     }
   };

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useAppSelector } from "../../store/hooks";
+import BasketUtils from "../basket/basketUtils";
+import { v4 as uuidv4 } from "uuid";
 
-interface ISetItem {
+export interface ISetItem {
   _id: string;
   name: string;
   url: string;
   price: number;
 }
+
 function Creator() {
   const [activeCategory, setActiveCategory] = useState<string>("rolls");
   const [activeCells, setActiveCells] = useState<number>(8);
@@ -175,7 +178,28 @@ function Creator() {
               <p>{getTotalPrice()} USD</p>
             </div>
             <div className="btn">
-              <button className="add-basket-btn">ADD TO BASKET</button>
+              {activeCells === composition.length && (
+                <BasketUtils
+                  set={{
+                    _id: uuidv4(),
+                    name: "Custom Set",
+                    price: getTotalPrice(),
+                    count: 1,
+                    composition: composition,
+                  }}
+                >
+                  {(handleAddToBasket) => {
+                    return (
+                      <button
+                        onClick={handleAddToBasket}
+                        className="add-basket-btn"
+                      >
+                        ADD TO BASKET
+                      </button>
+                    );
+                  }}
+                </BasketUtils>
+              )}
             </div>
           </div>
         </div>

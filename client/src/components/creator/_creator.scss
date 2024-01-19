@@ -225,10 +225,8 @@
     .sets-info {
       flex-basis: 35%;
       height: auto;
+      margin: 20px 0 300px 0;
 
-      @media (max-width: 750px) {
-        margin: 20px 0 200px 0;
-      }
       h3 {
         text-align: center;
         color: #dfdfdf;

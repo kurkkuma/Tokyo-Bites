@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { ISet } from "../components/basket/basketUtils";
 export interface IFavoriteItem {
   _id: string;
   url: string;
@@ -17,7 +17,7 @@ interface IUser {
   phone: string;
   address: string;
   favorites: IFavoriteItem[];
-  basket: IBasketItem[];
+  basket: (IBasketItem | ISet)[];
 }
 
 interface UserState {
@@ -50,7 +50,7 @@ export const userSlice = createSlice({
         (item) => item._id !== action.payload
       );
     },
-    addToBasket: (state, action: PayloadAction<IBasketItem>) => {
+    addToBasket: (state, action: PayloadAction<IBasketItem | ISet>) => {
       const existingBasketItemIndex = state.user.basket.findIndex(
         (item) => item._id === action.payload._id
       );
