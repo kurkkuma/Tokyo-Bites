@@ -138,17 +138,21 @@ router.put("/add-basket", async (req, res) => {
 router.delete("/delete-basket", async (req, res) => {
   try {
     const { userId, productId } = req.body;
+
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const productObjectId = new mongoose.Types.ObjectId(productId);
-
-    const productIndex = user.basket.findIndex(
-      (item) => String(item._id) === String(productObjectId)
-    );
+    let productIndex;
+    if (mongoose.Types.ObjectId.isValid(productId)) {
+      productIndex = user.basket.findIndex(
+        (item) => String(item._id) === String(productId)
+      );
+    } else {
+      productIndex = user.basket.findIndex((item) => item._id === productId);
+    }
 
     if (productIndex !== -1) {
       if (user.basket[productIndex].count > 1) {

@@ -13,11 +13,10 @@ function Basket() {
     userDispatch(removeFromBasket(id));
 
     try {
-      const payload = await removeFromBasketApi({
+      await removeFromBasketApi({
         userId: user._id,
         productId: id,
       }).unwrap();
-      console.log(payload);
     } catch (error) {
       console.log(error);
     }

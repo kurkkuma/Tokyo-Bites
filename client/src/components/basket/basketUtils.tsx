@@ -34,27 +34,38 @@ const BasketUtils: React.FC<BasketUtilsProps> = ({ id, set, children }) => {
       userDispatch(addToBasket(newBasketItem));
 
       try {
-        const payload = await addTobasketApi({
+        await addTobasketApi({
           userId: user._id,
           newBasketItem,
         }).unwrap();
-        console.log(payload);
       } catch (error) {
         console.log(error);
       }
     } else if (set) {
-      console.log("create new set");
-
       userDispatch(addToBasket(set));
-      console.log(set);
+
       try {
-        const payload = await addTobasketApi({
+        await addTobasketApi({
           userId: user._id,
           newBasketItem: set,
         }).unwrap();
-        console.log(payload);
       } catch (error) {
         console.log(error);
+      }
+    } else {
+      const selectedSet = user.basket.find((item) => item._id === id);
+
+      if (selectedSet) {
+        userDispatch(addToBasket(selectedSet));
+
+        try {
+          await addTobasketApi({
+            userId: user._id,
+            newBasketItem: selectedSet,
+          }).unwrap();
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }, [selectedProduct, id, userDispatch, addTobasketApi]);
