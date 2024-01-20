@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDeleteFromBasketMutation } from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IBasketItem, removeFromBasket } from "../../store/userSlice";
@@ -8,7 +9,7 @@ function Basket() {
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
   const [removeFromBasketApi] = useDeleteFromBasketMutation();
-
+  const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
   const handleRemoveFromBasket = async (id: string) => {
     userDispatch(removeFromBasket(id));
 
@@ -78,33 +79,55 @@ function Basket() {
         })}
         {setItems.map((item) => {
           return (
-            <li key={item._id} className="basket-item-container">
-              <div className="basket-info">
-                <p className="basket-name">{item.name}</p>
-              </div>
-              <div className="basket-price-count">
-                <p className="price">{item.price} USD</p>
-                <div className="add">
-                  <img
-                    onClick={() => handleRemoveFromBasket(item._id)}
-                    src="/images/icons/minus.png"
-                    alt="minus-icon"
-                  />
-                  <p className="count">{item.count} pcs</p>
-                  <BasketUtils id={item._id}>
-                    {(handleAddToBasket) => {
-                      return (
-                        <img
-                          onClick={handleAddToBasket}
-                          src="/images/icons/plus.png"
-                          alt="plus-icon"
-                        />
-                      );
-                    }}
-                  </BasketUtils>
+            <div key={item._id}>
+              <li className="basket-item-container">
+                <div className="basket-set-info-container">
+                  <div className="main-set-info">
+                    <p className="basket-name">{item.name}</p>
+                    <img
+                      onClick={() => setIsInfoOpen((prev) => !prev)}
+                      className="arrow-down"
+                      src="/images/icons/caret-down.png"
+                      alt="more info arrow"
+                    />
+                  </div>
                 </div>
-              </div>
-            </li>
+                <div className="basket-price-count">
+                  <p className="price">{item.price} USD</p>
+                  <div className="add">
+                    <img
+                      onClick={() => handleRemoveFromBasket(item._id)}
+                      src="/images/icons/minus.png"
+                      alt="minus-icon"
+                    />
+                    <p className="count">{item.count} pcs</p>
+                    <BasketUtils id={item._id}>
+                      {(handleAddToBasket) => {
+                        return (
+                          <img
+                            onClick={handleAddToBasket}
+                            src="/images/icons/plus.png"
+                            alt="plus-icon"
+                          />
+                        );
+                      }}
+                    </BasketUtils>
+                  </div>
+                </div>
+              </li>
+              {isInfoOpen && (
+                <ul className="more-set-info">
+                  {item.composition.map((item) => {
+                    return (
+                      <li key={item._id} className="more-info-item">
+                        <p>{item.name}</p>
+                        <p>{item.price} USD</p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
           );
         })}
       </ul>
