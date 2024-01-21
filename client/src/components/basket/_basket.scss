@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 200px;
 
   @media (max-width: 586px) {
     width: 90%;
@@ -20,6 +19,7 @@
   }
   .btn-try {
     margin-top: 30px;
+    margin-bottom: 200px;
     cursor: pointer;
     width: 144px;
     height: 40px;
