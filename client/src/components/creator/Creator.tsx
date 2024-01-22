@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAppSelector } from "../../store/hooks";
 import BasketUtils from "../basket/basketUtils";
 import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 export interface ISetItem {
   _id: string;
@@ -190,12 +191,14 @@ function Creator() {
                 >
                   {(handleAddToBasket) => {
                     return (
-                      <button
-                        onClick={handleAddToBasket}
-                        className="add-basket-btn"
-                      >
-                        ADD TO BASKET
-                      </button>
+                      <Link to="/basket">
+                        <button
+                          onClick={handleAddToBasket}
+                          className="add-basket-btn"
+                        >
+                          ADD TO BASKET
+                        </button>
+                      </Link>
                     );
                   }}
                 </BasketUtils>

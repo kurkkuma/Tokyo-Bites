@@ -11,8 +11,9 @@ function Feedback() {
 
   const [reviewText, setReviewText] = useState<string>("");
   const [selectedStars, setSelectedStars] = useState<number | null>(null);
-
   const [error, setError] = useState<string>("");
+
+  const stars = [5, 4, 3, 2, 1];
 
   const handleSendReview = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -63,51 +64,27 @@ function Feedback() {
           <p className="name">{user.name}</p>
           <div className="rating">
             <div className="stars">
-              <input
-                className="star"
-                type="radio"
-                name="rating"
-                id="star-5"
-                value="5"
-                onChange={(e) => setSelectedStars(+e.target.value)}
-              />
-              <label className="star-label" htmlFor="star-5"></label>
-              <input
-                className="star"
-                type="radio"
-                name="rating"
-                id="star-4"
-                value="4"
-                onChange={(e) => setSelectedStars(+e.target.value)}
-              />
-              <label className="star-label" htmlFor="star-4"></label>
-              <input
-                className="star"
-                type="radio"
-                name="rating"
-                id="star-3"
-                value="3"
-                onChange={(e) => setSelectedStars(+e.target.value)}
-              />
-              <label className="star-label" htmlFor="star-3"></label>
-              <input
-                className="star"
-                type="radio"
-                name="rating"
-                id="star-2"
-                value="2"
-                onChange={(e) => setSelectedStars(+e.target.value)}
-              />
-              <label className="star-label" htmlFor="star-2"></label>
-              <input
-                className="star"
-                type="radio"
-                name="rating"
-                id="star-1"
-                value="1"
-                onChange={(e) => setSelectedStars(+e.target.value)}
-              />
-              <label className="star-label" htmlFor="star-1"></label>
+              {stars.map((item) => {
+                return (
+                  <div key={item}>
+                    <input
+                      className="star"
+                      type="radio"
+                      name="rating"
+                      id={`star-${item}`}
+                      value={item}
+                      checked={selectedStars === item}
+                      onChange={(e) => setSelectedStars(+e.target.value)}
+                    />
+                    <label
+                      className={`star-label ${
+                        selectedStars && selectedStars >= item ? "selected" : ""
+                      }`}
+                      htmlFor={`star-${item}`}
+                    ></label>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -57,7 +57,9 @@ function Navbar() {
         isOpenMenu={isOpenMenu}
       />
 
-      <h1 className="title">Tokyo Bites</h1>
+      <Link to="/">
+        <h1 className="title">Tokyo Bites</h1>
+      </Link>
 
       <div className="icons">
         <div className="basket-container">

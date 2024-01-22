@@ -45,12 +45,13 @@
     color: #16171b;
     position: absolute;
     left: 50%;
+    top: 5px;
     transform: translateX(-50%);
     font-size: 1.8rem;
     font-family: "Ungai", sans-serif;
-    margin: 0 auto;
 
-    @media (max-width: 355px) {
+    @media (max-width: 450px) {
+      top: 8px;
       font-size: 1.5rem;
     }
   }
