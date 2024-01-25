@@ -76,5 +76,6 @@ const BasketUtils: React.FC<BasketUtilsProps> = ({ id, set, children }) => {
 export default BasketUtils;
 
 export const handleAmountBasket = (basket: (IBasketItem | ISet)[]) => {
-  return basket.reduce((acc, curr) => acc + curr.price * curr.count, 0);
+  const total = basket.reduce((acc, curr) => acc + curr.price * curr.count, 0);
+  return Number.isInteger(total) ? total : parseFloat(total.toFixed(1));
 };
