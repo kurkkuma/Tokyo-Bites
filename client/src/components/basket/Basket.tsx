@@ -9,7 +9,9 @@ function Basket() {
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
   const [removeFromBasketApi] = useDeleteFromBasketMutation();
-  const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
+  // const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
+  const [openItemId, setOpenItemId] = useState<string | null>(null);
+
   const handleRemoveFromBasket = async (id: string) => {
     userDispatch(removeFromBasket(id));
 
@@ -85,7 +87,11 @@ function Basket() {
                   <div className="main-set-info">
                     <p className="basket-name">{item.name}</p>
                     <img
-                      onClick={() => setIsInfoOpen((prev) => !prev)}
+                      onClick={() =>
+                        setOpenItemId((prev) =>
+                          prev === item._id ? null : item._id
+                        )
+                      }
                       className="arrow-down"
                       src="/images/icons/caret-down.png"
                       alt="more info arrow"
@@ -115,7 +121,7 @@ function Basket() {
                   </div>
                 </div>
               </li>
-              {isInfoOpen && (
+              {openItemId === item._id && (
                 <ul className="more-set-info">
                   {item.composition.map((item) => {
                     return (
