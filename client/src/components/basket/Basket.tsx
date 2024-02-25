@@ -9,7 +9,6 @@ function Basket() {
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
   const [removeFromBasketApi] = useDeleteFromBasketMutation();
-  // const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
   const [openItemId, setOpenItemId] = useState<string | null>(null);
 
   const handleRemoveFromBasket = async (id: string) => {

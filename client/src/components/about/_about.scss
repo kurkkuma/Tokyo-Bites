@@ -1,4 +1,7 @@
 .main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   box-sizing: border-box;
   padding: 0 50px;
   margin: 0 auto;
@@ -15,6 +18,12 @@
     padding: 0 20px;
   }
 
+  iframe {
+    border: none;
+    max-width: 820px;
+    width: 90%;
+    height: 30rem;
+  }
   .about {
     display: flex;
     justify-content: center;
@@ -33,6 +42,7 @@
       width: 747px;
       height: auto;
       margin-top: 114px;
+      margin-bottom: 30px;
 
       @media (max-width: 780px) {
         margin-top: 0px;

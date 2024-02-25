@@ -1,7 +1,9 @@
 import Reviews from "./reviews/Reviews";
 import Feedback from "./feedback/Feedback";
+import { useState } from "react";
 
 function About() {
+  const [showMap, setShowMap] = useState<boolean>(false);
   return (
     <div className="main-container">
       <div className="about">
@@ -31,14 +33,24 @@ function About() {
             <div className="social-media">
               <p className="title">Social media:</p>
               <div className="icons">
-                <img src="/images/icons/telegram.png" alt="telegram-icon" />
-                <img src="/images/icons/instagram.png" alt="instagram-icon" />
-                <img src="/images/icons/facebook.png" alt="facebook-icon" />
+                <a target="_blank" href="https://web.telegram.org/">
+                  <img src="/images/icons/telegram.png" alt="telegram-icon" />
+                </a>
+                <a target="_blank" href="https://www.instagram.com/">
+                  <img src="/images/icons/instagram.png" alt="instagram-icon" />
+                </a>
+                <a target="_blank" href="https://www.facebook.com/">
+                  <img src="/images/icons/facebook.png" alt="facebook-icon" />
+                </a>
               </div>
             </div>
             <div className="google-map">
               <p className="title">Google map:</p>
-              <img src="/images/icons/map.png" alt="map-icon" />
+              <img
+                onClick={() => setShowMap((prev) => !prev)}
+                src="/images/icons/map.png"
+                alt="map-icon"
+              />
             </div>
           </div>
         </div>
@@ -48,6 +60,13 @@ function About() {
           alt="about-image"
         />
       </div>
+      {showMap && (
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1508359.2419179797!2d17.973107788645603!3d42.40614382400943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ef76873ffff%3A0xa2785268c20b6901!2sTokyo%20Asian%20Restaurant%2F%20Fishop!5e0!3m2!1sru!2s!4v1708858881614!5m2!1sru!2s"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      )}
       <Reviews />
       <Feedback />
     </div>
