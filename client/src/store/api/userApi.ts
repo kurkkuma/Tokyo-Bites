@@ -5,7 +5,7 @@ export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     // baseUrl: "https://tokyo-bites-api.onrender.com/",
     baseUrl: "https://dull-plum-cod-suit.cyclic.app/",
-    // baseUrl: "http://localhost:8080/",
+    // baseUrl: "http://localhost:10000/",
   }),
 
   endpoints: (builder) => ({
@@ -44,6 +44,13 @@ export const userApi = createApi({
         body,
       }),
     }),
+    resetBasket: builder.mutation({
+      query: (body) => ({
+        url: "reset-basket",
+        method: "DELETE",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useDeleteFavoriteMutation,
   useAddToBasketMutation,
   useDeleteFromBasketMutation,
+  useResetBasketMutation,
 } = userApi;

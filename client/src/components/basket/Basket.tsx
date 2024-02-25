@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { useDeleteFromBasketMutation } from "../../store/api/userApi";
+import {
+  useDeleteFromBasketMutation,
+  useResetBasketMutation,
+} from "../../store/api/userApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IBasketItem, removeFromBasket } from "../../store/userSlice";
+import {
+  IBasketItem,
+  removeFromBasket,
+  resetBasket,
+} from "../../store/userSlice";
 import BasketUtils, { ISet } from "./basketUtils";
 import { handleAmountBasket } from "./basketUtils";
 
@@ -9,7 +16,9 @@ function Basket() {
   const user = useAppSelector((state) => state.user.user);
   const userDispatch = useAppDispatch();
   const [removeFromBasketApi] = useDeleteFromBasketMutation();
+  const [resetBasketApi] = useResetBasketMutation();
   const [openItemId, setOpenItemId] = useState<string | null>(null);
+  const [orderMessage, setOrderMessage] = useState<string>("");
 
   const handleRemoveFromBasket = async (id: string) => {
     userDispatch(removeFromBasket(id));
@@ -19,6 +28,25 @@ function Basket() {
         userId: user._id,
         productId: id,
       }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOrder = async () => {
+    userDispatch(resetBasket());
+    try {
+      const payload = await resetBasketApi({
+        userId: user._id,
+      }).unwrap();
+      if (payload.message === "reseted basket") {
+        setOrderMessage(
+          `Your order has been accepted! We will call you back at the number: ${user.phone}`
+        );
+        setTimeout(() => {
+          setOrderMessage("");
+        }, 5000);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -140,7 +168,9 @@ function Basket() {
         <p>Total price: </p>
         <p>{handleAmountBasket(user.basket)} USD</p>
       </div>
-      <button className="btn-try"></button>
+      {orderMessage.length > 0 && <p className="success">{orderMessage}</p>}
+
+      <button onClick={handleOrder} className="btn-try"></button>
     </div>
   );
 }

@@ -5,6 +5,11 @@
   flex-direction: column;
   align-items: center;
 
+  .success {
+    margin: 3rem 0 0 0;
+    font-size: 1rem;
+    color: #a0db75;
+  }
   @media (max-width: 586px) {
     width: 90%;
   }
@@ -20,6 +25,7 @@
   .btn-try {
     margin-top: 30px;
     margin-bottom: 200px;
+
     cursor: pointer;
     width: 144px;
     height: 40px;

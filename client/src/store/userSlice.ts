@@ -77,6 +77,9 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = initialState.user;
     },
+    resetBasket: (state) => {
+      state.user.basket = [];
+    },
   },
 });
 
@@ -87,5 +90,6 @@ export const {
   addToBasket,
   removeFromBasket,
   logout,
+  resetBasket,
 } = userSlice.actions;
 export default userSlice.reducer;
