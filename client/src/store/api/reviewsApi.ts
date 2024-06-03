@@ -4,8 +4,8 @@ export const reviewsApi = createApi({
   reducerPath: "reviewsApi",
   tagTypes: ["Reviews"],
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://tokyo-bites-api.onrender.com/",
-    baseUrl: "https://dull-plum-cod-suit.cyclic.app/",
+    baseUrl: "https://tokyo-bites-api.onrender.com/",
+    // baseUrl: "https://dull-plum-cod-suit.cyclic.app/",
 
     // baseUrl: "http://localhost:8080/",
   }),
